@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome To Records Of Sudent"
+        android:textSize="22sp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/text1" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:spinnerMode="dropdown"
+        android:id="@+id/teachername"
+        android:entries="@array/choose_teacher"
+        android:layout_below="@+id/text1"
+        android:layout_centerHorizontal="true">
+
+    </Spinner>
+
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:spinnerMode="dropdown"
+        android:id="@+id/coursedisplay"
+        android:entries="@array/course_option"
+        android:prompt="@string/hintforspin"
+        android:layout_below="@+id/teachername"
+        android:layout_centerHorizontal="true">
+
+    </Spinner>
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:spinnerMode="dropdown"
+        android:id="@+id/sem_display"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/coursedisplay"
+        android:entries="@array/sem_option">
+
+    </Spinner>
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:spinnerMode="dropdown"
+        android:id="@+id/choose_process"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/sem_display"
+        android:entries="@array/choose_process">
+
+    </Spinner>
+
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="display"
+        android:id="@+id/displaydata"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true" />
+
+</RelativeLayout>
