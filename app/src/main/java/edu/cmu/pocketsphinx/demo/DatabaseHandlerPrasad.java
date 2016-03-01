@@ -16,6 +16,7 @@ public class DatabaseHandlerPrasad extends SQLiteOpenHelper {
     public static ArrayList<defaultdetails> al1=new ArrayList<>();
 
     public defaultdetails dd;
+    public emailStructure emailtemp;
 
     public static final int database_version=1;
     public static final String DataBase_name="Prasad.db";
@@ -776,16 +777,17 @@ public class DatabaseHandlerPrasad extends SQLiteOpenHelper {
     public ArrayList<emailStructure> getEmail(String[] rollno)
     {
         SQLiteDatabase db=getReadableDatabase();
-        String[] col={"FirstName","Last_name","roll_no","Course","Email_id"};
+        String[] col={"FirstName","Last_name","roll_no","Course","Email_id","PhoneNo"};
         int i=0;
         Cursor cursor;
         ArrayList<emailStructure> e=new ArrayList<>();
         while(i < rollno.length) {
             cursor = db.query(Table_name, col, "roll_no=" + rollno[i], null, null, null, null);
-            emailStructure temp = new emailStructure(cursor.getString(0) + cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4));
-            e.add(temp);
+            emailtemp = new emailStructure(cursor.getString(0) + cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),cursor.getString(cursor.getColumnIndex(col_phone)));
             i++;
         }
+
+        e=emailtemp.getE();
 
         return e;
             }

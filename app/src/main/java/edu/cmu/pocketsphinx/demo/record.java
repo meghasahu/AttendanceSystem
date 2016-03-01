@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -172,8 +173,30 @@ public class record extends Activity implements View.OnClickListener {
         b2.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
-                 Intent i=new Intent(record.this,send.class);
-                 startActivity(i);
+                 String temp[]={null};
+
+                 for(int i=0;i<al2.size();i++)
+                 {
+                     temp[i]=  al2.get(i).drollno;
+                 }
+
+                 Intent intent=new Intent(record.this,send.class);
+                 if(teacher.equalsIgnoreCase("prasad")) {
+
+                     DatabaseHandlerPrasad pg = new DatabaseHandlerPrasad(getApplicationContext(), null, null, 1);
+                     e=pg.getEmail(temp);
+                     intent.putParcelableArrayListExtra("tempdata",e);
+
+
+                 }      else
+                         if (teacher.equalsIgnoreCase("sudhir"))
+                         {
+                         DatabaseHandlerSudhir pg = new DatabaseHandlerSudhir(getApplicationContext(), null, null, 1);
+                         e=pg.getEmail(temp);
+                         intent.putParcelableArrayListExtra("tempdata",e);
+                         }
+
+                 startActivity(intent);
              }
          });
 

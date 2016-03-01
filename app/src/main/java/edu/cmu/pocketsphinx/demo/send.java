@@ -4,10 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -17,58 +20,88 @@ import java.util.Iterator;
  */
 public class send extends Activity {
 
-    Button b1,b2;
+    Button b1, b2;
     EditText et1;
-    CheckBox ch1,ch2;
+    CheckBox ch1, ch2;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.send);
 
-        b1=(Button)findViewById(R.id.sendmail);
-        b2=(Button)findViewById(R.id.sms);
+        b1 = (Button) findViewById(R.id.sendmail);
+        b2 = (Button) findViewById(R.id.sms);
 
-        et1=(EditText)findViewById(R.id.email);
+        et1 = (EditText) findViewById(R.id.email);
 
-        ch1=(CheckBox)findViewById(R.id.checkbox1);
-        ch2=(CheckBox)findViewById(R.id.checkother);
+        ch1 = (CheckBox) findViewById(R.id.checkbox1);
+        ch2 = (CheckBox) findViewById(R.id.checkother);
+
+
+        ch2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ch2.isChecked()) {
+                    et1.setVisibility(View.VISIBLE);
+                    et1.setText("enter data");
+                }
+            }
+        });
+
+        //send email
 
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                ArrayList<emailStructure> e;
+                int i = 0;
+                Intent intent2 = null, chooser = null;
+                Intent intent = getIntent();
+                e = intent.getParcelableArrayListExtra("tempdata");
+
+                intent2 = new Intent(Intent.ACTION_SEND);
+                intent2.setData(Uri.parse("mailto:"));
+
+                while (!e.isEmpty()) {
+
+                    intent.putExtra(Intent.EXTRA_EMAIL, e.get(i).emailid);
+                    intent.putExtra(Intent.EXTRA_SUBJECT, "Regarding your child attendance");
+                    intent.putExtra(Intent.EXTRA_TEXT, "Dear parents, \n We are informing you that your child's is not attending all the lectures.Hence ");
+                    i++;
+
+                    intent.setType("message/rfc822");
+
+                    chooser=Intent.createChooser(intent,"send email");
+                    startActivity(chooser);
+                }
 
             }
         });
 
         b2.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
 
+                if (ch1.isChecked()) {
+                    ArrayList<emailStructure> e;
+                    int i = 0;
+                    Intent intent = getIntent();
+                    e = intent.getParcelableArrayListExtra("tempdata");
 
+                    while (!e.isEmpty()) {
+                        SmsManager sms_manager = SmsManager.getDefault();
+                        sms_manager.sendTextMessage(e.get(i).col_phone, null, "", null, null);
+                    }
+                }
 
+                else
+                    Toast.makeText(getApplicationContext(),"please select option defaulters",Toast.LENGTH_SHORT).show();
             }
         });
-    }
-    send(View v, ArrayList<emailStructure> e) {
-        Intent intent = null, chooser = null;
-        if (v.getId() == R.id.send) {
-            intent = new Intent(Intent.ACTION_SEND);
-            intent.setData(Uri.parse("mailto:"));
-            Iterator itr = e.iterator();
-            while (itr.hasNext())
-            {
-                String email=itr.next().toString();
-               intent.putExtra(Intent.EXTRA_EMAIL,email);
-                intent.putExtra(Intent.EXTRA_SUBJECT, "");
-                intent.putExtra(Intent.EXTRA_TEXT, "");
-            }
 
-
-        }
-    }
-    public send()
-    {
 
     }
 }

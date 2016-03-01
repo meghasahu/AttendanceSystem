@@ -15,6 +15,7 @@ public class DatabaseHandlerSudhir extends SQLiteOpenHelper {
 
     public static ArrayList<defaultdetails> al1=new ArrayList<>();
     public defaultdetails dd;
+    public emailStructure emailtemp;
 
 
     public static final int database_version=1;
@@ -759,7 +760,6 @@ public class DatabaseHandlerSudhir extends SQLiteOpenHelper {
                 dd = new defaultdetails(cur2.getString(cur2.getColumnIndex(Firstname)) + "  ", cur2.getString(cur2.getColumnIndex(roll_no)) + "  ", cur2.getString(cur2.getColumnIndex(Course)) + " ", defaulterpercent);
 
             }
-
         }
 
         al1=dd.getTemp();
@@ -771,16 +771,21 @@ public class DatabaseHandlerSudhir extends SQLiteOpenHelper {
     public ArrayList<emailStructure> getEmail(String[] rollno)
     {
         SQLiteDatabase db=getReadableDatabase();
-        String[] col={"FirstName","Last_name","roll_no","Course","Email_id"};
+        String[] col={"FirstName","roll_no","Course","Email_id","PhoneNo"};
         int i=0;
         Cursor cursor;
         ArrayList<emailStructure> e=new ArrayList<>();
-        while(i<rollno.length) {
+        while(i < rollno.length) {
             cursor = db.query(Table_name, col, "roll_no=" + rollno[i], null, null, null, null);
-            emailStructure temp = new emailStructure(cursor.getString(0) + cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4));
-            e.add(temp);
+            emailtemp = new emailStructure(cursor.getString(cursor.getColumnIndex(Firstname)),
+                    cursor.getString(cursor.getColumnIndex(roll_no)),
+                    cursor.getString(cursor.getColumnIndex(Course)),
+                    cursor.getString(cursor.getColumnIndex(Email_id)),
+                    cursor.getString(cursor.getColumnIndex(col_phone)));
             i++;
         }
+
+        e=emailtemp.getE();
 
         return e;
     }
