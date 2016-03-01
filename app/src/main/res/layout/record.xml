@@ -61,7 +61,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/enterrollormonth"
         android:layout_centerHorizontal="true"
-        android:inputType="text"
+        android:inputType="number"
         android:layout_below="@+id/choose_process"
         android:visibility="invisible"/>
 
