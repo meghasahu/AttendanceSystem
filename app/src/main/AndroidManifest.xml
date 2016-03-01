@@ -45,6 +45,18 @@
             android:label="Attendance">
 
         </activity>
+
+        <activity
+            android:name=".byrollno"
+            android:label="attendance by roll">
+
+        </activity>
+
+        <activity
+            android:name=".bymonth"
+            android:label="attendance by month">
+        </activity>
+
     </application>
 
 </manifest>
