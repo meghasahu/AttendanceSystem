@@ -13,7 +13,9 @@ import java.util.TreeSet;
 
 public class DatabaseHandlerPrasad extends SQLiteOpenHelper {
 
-    public static final ArrayList<defaultdetails> al1=new ArrayList<>();
+    public static ArrayList<defaultdetails> al1=new ArrayList<>();
+
+    public defaultdetails dd;
 
     public static final int database_version=1;
     public static final String DataBase_name="Prasad.db";
@@ -753,26 +755,26 @@ public class DatabaseHandlerPrasad extends SQLiteOpenHelper {
                    }
                }
               double defaulterpercent = (c / (31 - holiday)) * 100;
-             /*  if (defaulterpercent < 75) {
+              if (defaulterpercent < 75) {
                    String[] col = {"FirstName", "rollno", "Course"};
                    Cursor cur2;
                    cur2 = db.query(Table_name, col, "rollno=" + cursor.getString(1), null, null, null, null);
                    cur2.moveToFirst();
-                   defaultdetails dd = new defaultdetails(cur2.getString(cur2.getColumnIndex(Firstname)) + "  ", cur2.getString(cur2.getColumnIndex(roll_no)) + "  ", cur2.getString(cur2.getColumnIndex(Course)) + " ", defaulterpercent);
-                   al.add(dd);
+                  dd = new defaultdetails(cur2.getString(cur2.getColumnIndex(Firstname)) + "  ", cur2.getString(cur2.getColumnIndex(roll_no)) + "  ", cur2.getString(cur2.getColumnIndex(Course)) + " ", defaulterpercent);
                    cur2.close();
-               } */
-               defaultdetails dd=new defaultdetails("megha","13","information",80.00);
-               al1.add(dd);
+               }
+
            }
 
+        al1=dd.getTemp();
         return al1;
     }
 
     //get email id to send mail
 
-    public ArrayList<emailStructure> getEmail(String[] rollno,SQLiteDatabase db)
+    public ArrayList<emailStructure> getEmail(String[] rollno)
     {
+        SQLiteDatabase db=getReadableDatabase();
         String[] col={"FirstName","Last_name","roll_no","Course","Email_id"};
         int i=0;
         Cursor cursor;
