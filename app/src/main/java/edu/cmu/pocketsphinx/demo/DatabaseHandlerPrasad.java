@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -13,6 +12,9 @@ import java.util.TreeSet;
 
 
 public class DatabaseHandlerPrasad extends SQLiteOpenHelper {
+
+    public static final ArrayList<defaultdetails> al1=new ArrayList<>();
+
     public static final int database_version=1;
     public static final String DataBase_name="Prasad.db";
     public static final String Table_name="MainTable";
@@ -222,6 +224,7 @@ public class DatabaseHandlerPrasad extends SQLiteOpenHelper {
                     "\tPRIMARY KEY(rollno)\n" +
                     ")";
             db.execSQL(table_attend_query);
+
         }
 
         //Creation of Trigger for information table
@@ -330,6 +333,7 @@ public class DatabaseHandlerPrasad extends SQLiteOpenHelper {
         db.execSQL(trigger_co_table);
         db.execSQL(trigger_Ej_insert);
 
+
     }
 
 
@@ -354,7 +358,7 @@ public class DatabaseHandlerPrasad extends SQLiteOpenHelper {
         if (status.equalsIgnoreCase("present")) {
 
             for (String number : numbers) {
-             //  Toast.makeText(1,"number" + number, Toast.LENGTH_LONG).show();
+             // Toast.makeText(1,"number" + number, Toast.LENGTH_LONG).show();
                 db.execSQL("update " + tablename + " \n" +
                         "set \"" + day + "\"=\"present\"\n" +
                         "where rollno = " + number + " \n");
@@ -666,12 +670,6 @@ public class DatabaseHandlerPrasad extends SQLiteOpenHelper {
                         break;
                     }
                 }
-
-
-
-
-
-
                 break;
             }
             default:
@@ -688,13 +686,13 @@ public class DatabaseHandlerPrasad extends SQLiteOpenHelper {
     {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues vs  =new ContentValues();
-        vs.put(roll_no,s.getRollno());
-        vs.put(Firstname,s.getFirst());
-        vs.put(Last_name,s.getLast());
-        vs.put(col_phone,s.getPhone());
-        vs.put(Email_id,s.getEmailid());
-        vs.put(Course,s.getCourse());
-        db.insert(Table_name,null,vs);
+        vs.put(roll_no, s.getRollno());
+        vs.put(Firstname, s.getFirst());
+        vs.put(Last_name, s.getLast());
+        vs.put(col_phone, s.getPhone());
+        vs.put(Email_id, s.getEmailid());
+        vs.put(Course, s.getCourse());
+        db.insert(Table_name, null, vs);
 
 
     }
@@ -736,35 +734,59 @@ public class DatabaseHandlerPrasad extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public ArrayList<defaultdetails>  defaulterFor1month (String tablename,SQLiteDatabase db)
+    // get defaulter list
+
+    public ArrayList<defaultdetails>  defaulterFor1month (String tablename)
     {
-        ArrayList<defaultdetails> al=new ArrayList<defaultdetails>();
+        SQLiteDatabase db = getWritableDatabase();
         String [] columns ={"rollno","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"};
         Cursor cursor = db.query (tablename,columns,null,null,null,null,null);
-        while (cursor.moveToNext())
-        {
-            int c=0,holiday=0;
-            for (int i=1;i<=31;i++)
-            {
-                if(cursor.getString(i).equalsIgnoreCase("p"))
-                    c++;
-                else
-                {
-                    if(cursor.getString(i).equalsIgnoreCase(null))
-                        holiday++;
-                }
-            }
-            double defaulterpercent=(c/(31-holiday))*100;
-            if(defaulterpercent  <75)
-            {
-                String[] col={"FirstName","Last_name","roll_no"};
-                Cursor cur2=db.query(Table_name,col,"roll_no="+roll_no,null,null,null,null);
-                defaultdetails dd=new defaultdetails(cur2.getString(0)+"  ",cur2.getString(1)+"  ",cur2.getString(2)+"  ",defaulterpercent);
-                al.add(dd);
-            }
-        }
-        return al;
+
+           while (cursor.moveToNext()) {
+               int c = 0, holiday = 0;
+               for (int i = 1; i <= 31; i++) {
+                   if (cursor.getString(i).equalsIgnoreCase("p"))
+                       c++;
+                   else {
+                       if (cursor.getString(i).equalsIgnoreCase(null))
+                           holiday++;
+                   }
+               }
+              double defaulterpercent = (c / (31 - holiday)) * 100;
+             /*  if (defaulterpercent < 75) {
+                   String[] col = {"FirstName", "rollno", "Course"};
+                   Cursor cur2;
+                   cur2 = db.query(Table_name, col, "rollno=" + cursor.getString(1), null, null, null, null);
+                   cur2.moveToFirst();
+                   defaultdetails dd = new defaultdetails(cur2.getString(cur2.getColumnIndex(Firstname)) + "  ", cur2.getString(cur2.getColumnIndex(roll_no)) + "  ", cur2.getString(cur2.getColumnIndex(Course)) + " ", defaulterpercent);
+                   al.add(dd);
+                   cur2.close();
+               } */
+               defaultdetails dd=new defaultdetails("megha","13","information",80.00);
+               al1.add(dd);
+           }
+
+        return al1;
     }
+
+    //get email id to send mail
+
+    public ArrayList<emailStructure> getEmail(String[] rollno,SQLiteDatabase db)
+    {
+        String[] col={"FirstName","Last_name","roll_no","Course","Email_id"};
+        int i=0;
+        Cursor cursor;
+        ArrayList<emailStructure> e=new ArrayList<>();
+        while(i<rollno.length) {
+            cursor = db.query(Table_name, col, "roll_no=" + rollno[i], null, null, null, null);
+            emailStructure temp = new emailStructure(cursor.getString(0) + cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4));
+            e.add(temp);
+            i++;
+        }
+
+        return e;
+            }
+
 }
 
 
