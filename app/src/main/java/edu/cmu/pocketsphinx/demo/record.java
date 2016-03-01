@@ -132,30 +132,22 @@ public class record extends Activity implements View.OnClickListener {
         }
     }
 
-
-   // listview setter for defaulter list
+    // listview setter for defaulter list
     public void listviewsetter() {
-
-        Button b2 = (Button) findViewById(R.id.send);
 
         cal = Calendar.getInstance();
         month = String.valueOf(1 + (cal.get(Calendar.MONTH)));
 
         setContentView(R.layout.listviewmain);
 
+        Button b2 = (Button)findViewById(R.id.send);
 
-            if (teacher.equalsIgnoreCase("Prasad")) {
+        if (teacher.equalsIgnoreCase("Prasad")) {
 
                 DatabaseHandlerPrasad pg = new DatabaseHandlerPrasad(this, null, null, 1);
 
-
-
-               // Toast.makeText(this,pg.Tablenamereturns(course,sem,month),Toast.LENGTH_SHORT).show();
-
                al2 = pg.defaulterFor1month(pg.Tablenamereturns(course,sem,month));
 
-
-               Toast.makeText(this, "arraylist" + al2.get(0).dname + "  ", Toast.LENGTH_SHORT).show();
                     ListView list = (ListView) findViewById(R.id.defaulter_list);
 
                     ad = new adapter(this, al2);
@@ -166,10 +158,10 @@ public class record extends Activity implements View.OnClickListener {
             }
             else if (teacher.equalsIgnoreCase("sudhir")) {
 
-                DatabaseHandlerSudhir pg = new DatabaseHandlerSudhir(this, null, null, 1);
+                DatabaseHandlerPrasad pg = new DatabaseHandlerPrasad(this, null, null, 1);
 
-                openOrCreateDatabase(pg.getDatabaseName(), Context.MODE_PRIVATE,null);
-                al2 = pg.defaulterFor1month(pg.Tablenamereturns(course, sem, month), pg.getWritableDatabase());
+                al2 = pg.defaulterFor1month(pg.Tablenamereturns(course,sem,month));
+
                 ListView list = (ListView) findViewById(R.id.defaulter_list);
 
                 ad = new adapter(this, al2);
@@ -177,15 +169,13 @@ public class record extends Activity implements View.OnClickListener {
                 list.setAdapter(ad);
 
             }
-        /* b2.setOnClickListener(new View.OnClickListener() {
+        b2.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
                  Intent i=new Intent(record.this,send.class);
                  startActivity(i);
              }
          });
-*/
-
 
     }
 

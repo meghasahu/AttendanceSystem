@@ -7,9 +7,16 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.TreeSet;
 
 
 public class DatabaseHandlerSudhir extends SQLiteOpenHelper {
+
+    public static ArrayList<defaultdetails> al1=new ArrayList<>();
+    public defaultdetails dd;
+
+
     public static final int database_version=1;
     public static final String DataBase_name="Sudhir.db";
     public static final String Table_name="MainTable";
@@ -377,35 +384,405 @@ public class DatabaseHandlerSudhir extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public ArrayList<defaultdetails> defaulterFor1month (String tablename,SQLiteDatabase db)
+    public void update(String course, String semester, TreeSet<String> Student_numbers,String status) {
+        String tablename, day;
+        Calendar cal = Calendar.getInstance();
+        String month = String.valueOf(1 + (cal.get(Calendar.MONTH)));
+        day = String.valueOf(cal.get(Calendar.DATE));
+        tablename = Tablenamereturns(course, semester, month);
+        // Toast.makeText(1, "Table Name" + tablename, Toast.LENGTH_LONG).show();
+        // Toast.makeText(l, "date" + day, Toast.LENGTH_LONG).show();
+        ContentValues vs = new ContentValues();
+        vs.put(day, "present");
+        SQLiteDatabase db = getWritableDatabase();
+        TreeSet<String> S = new TreeSet<>(Student_numbers);
+        String[] numbers = S.toArray(new String[S.size()]);
+
+        if (status.equalsIgnoreCase("present")) {
+
+            for (String number : numbers) {
+                //  Toast.makeText(1,"number" + number, Toast.LENGTH_LONG).show();
+                db.execSQL("update " + tablename + " \n" +
+                        "set \"" + day + "\"=\"present\"\n" +
+                        "where rollno = " + number + " \n");
+
+
+            }
+
+        }
+        else
+        {
+            for(String number:numbers)
+            {
+                // Toast.makeText(l, "calling from else part:absent", Toast.LENGTH_SHORT).show();
+                db.execSQL("update " + tablename + " \n" +
+                        "set \"" + day + "\"=\"absent\"\n" +
+                        "where rollno = " + number + " \n");
+            }
+        }
+    }
+
+
+
+
+
+    public String Tablenamereturns(String course,String semster,String month)
     {
-        ArrayList<defaultdetails> al=new ArrayList<defaultdetails>();
+
+
+        switch(course)
+        {
+            case "information":
+            {
+                switch(semster)
+                {
+                    case "first":
+                    {
+                        if(month.equals("6"))
+                        {
+                            return("IF1G_JUNE");
+
+                        }
+
+                        if(month.equals("7"))
+                        {
+                            return ("IF1G_JULY");
+                        }
+                        if(month.equals("8"))
+                            return ("IF1G_AUGUST");
+                        if(month.equals("9"))
+                            return ("IF1G_SEPT");
+                        if(month.equals("10"))
+                            return ("IF1G_OCT");
+
+                        break;
+                    }
+                    case "second":
+                    {
+                        System.out.println("month"+month);
+                        if(month.equals("12"))
+                            return("IF2G_DEC");
+                        if(month.equals("1"))
+                            return("IF2G_JAN");
+                        if(month.equals("2"))
+                            return("IF2G_FEB");
+                        if(month.equals("3"))
+                            return("IF2G_MARCH");
+                        break;
+                    }
+                    case "third":
+                    {
+                        if(month.equals("6"))
+                            return("IF3G_JUNE");
+                        if(month.equals("7"))
+                            return("IF3G_JULY");
+                        if(month.equals("8"))
+                            return("IF3G_AUGUST");
+                        if(month.equals("9"))
+                            return("IF3G_SEPT");
+                        if(month.equals("10"))
+                            return("IF3G_OCT");
+                        break;
+                    }
+                    case "fourth":
+                    {   if(month.equals("12"))
+                        return("IF4G_DEC");
+                        if(month.equals("1"))
+                            return("IF4G_JAN");
+                        if(month.equals("2"))
+                            return("IF4G_FEB");
+                        if(month.equals("3"))
+                            return("IF4G_MARCH");
+                        break;
+                    }
+                    case "fifth":
+                    {
+                        if(month.equals("6"))
+                            return("IF5G_JUNE");
+                        if(month.equals("7"))
+                            return("IF5G_JULY");
+                        if(month.equals("8"))
+                            return("IF5G_AUGUST");
+                        if(month.equals("9"))
+                            return("IF5G_SEPT");
+                        if(month.equals("10"))
+                            return("IF5G_OCT");
+
+                        break;
+                    }
+                    case "sixth":
+                    {
+                        if(month.equals("12"))
+                            return("IF6G_DEC");
+                        if(month.equals("1"))
+                            return("IF6G_JAN");
+                        if(month.equals("2"))
+                            return("IF6G_FEB");
+                        if(month.equals("3"))
+                            return("IF6G_MARCH");
+                        break;
+                    }
+                }
+                break;
+            }
+            case "electronics":
+            {
+                switch(semster)
+                {
+                    case "first":
+                    {
+                        if(month.equals("6"))
+                        {
+                            return("EJ1G_JUNE");
+
+                        }
+
+                        if(month.equals("7"))
+                        {
+                            return ("EJ1G_JULY");
+                        }
+                        if(month.equals("8"))
+                            return ("EJ1G_AUGUST");
+                        if(month.equals("9"))
+                            return ("EJ1G_SEPT");
+                        if(month.equals("10"))
+                            return ("EJ1G_OCT");
+
+                        break;
+                    }
+                    case "second":
+                    {
+                        System.out.println("month"+month);
+                        if(month.equals("12"))
+                            return("EJ2G_DEC");
+                        if(month.equals("1"))
+                            return("EJ2G_JAN");
+                        if(month.equals("2"))
+                            return("EJ2G_FEB");
+                        if(month.equals("3"))
+                            return("EJ2G_MARCH");
+                        break;
+                    }
+                    case "third":
+                    {
+                        if(month.equals("6"))
+                            return("EJ3G_JUNE");
+                        if(month.equals("7"))
+                            return("EJ3G_JULY");
+                        if(month.equals("8"))
+                            return("EJ3G_AUGUST");
+                        if(month.equals("9"))
+                            return("EJ3G_SEPT");
+                        if(month.equals("10"))
+                            return("EJ3G_OCT");
+                        break;
+                    }
+                    case "fourth":
+                    {   if(month.equals("12"))
+                        return("EJ4G_DEC");
+                        if(month.equals("1"))
+                            return("EJ4G_JAN");
+                        if(month.equals("2"))
+                            return("EJ4G_FEB");
+                        if(month.equals("3"))
+                            return("EJ4G_MARCH");
+                        break;
+                    }
+                    case "fifth":
+                    {
+                        if(month.equals("6"))
+                            return("EJ5G_JUNE");
+                        if(month.equals("7"))
+                            return("EJ5G_JULY");
+                        if(month.equals("8"))
+                            return("EJ5G_AUGUST");
+                        if(month.equals("9"))
+                            return("EJ5G_SEPT");
+                        if(month.equals("10"))
+                            return("EJ5G_OCT");
+
+                        break;
+                    }
+                    case "sixth":
+                    {
+                        if(month.equals("12"))
+                            return("EJ6G_DEC");
+                        if(month.equals("1"))
+                            return("EJ6G_JAN");
+                        if(month.equals("2"))
+                            return("EJ6G_FEB");
+                        if(month.equals("3"))
+                            return("EJ6G_MARCH");
+                        break;
+                    }
+                }
+                break;
+            }
+
+
+
+
+            case "computer":
+            {
+                switch(semster)
+                {
+                    case "first":
+                    {
+                        if(month.equals("6"))
+                        {
+                            return("CO1G_JUNE");
+
+                        }
+
+                        if(month.equals("7"))
+                        {
+                            return ("CO1G_JULY");
+                        }
+                        if(month.equals("8"))
+                            return ("CO1G_AUGUST");
+                        if(month.equals("9"))
+                            return ("CO1G_SEPT");
+                        if(month.equals("10"))
+                            return ("CO1G_OCT");
+
+                        break;
+                    }
+                    case "second":
+                    {
+                        System.out.println("month"+month);
+                        if(month.equals("12"))
+                            return("CO2G_DEC");
+                        if(month.equals("1"))
+                            return("CO2G_JAN");
+                        if(month.equals("2"))
+                            return("CO2G_FEB");
+                        if(month.equals("3"))
+                            return("CO2G_MARCH");
+                        break;
+                    }
+                    case "third":
+                    {
+                        if(month.equals("6"))
+                            return("CO3G_JUNE");
+                        if(month.equals("7"))
+                            return("CO3G_JULY");
+                        if(month.equals("8"))
+                            return("CO3G_AUGUST");
+                        if(month.equals("9"))
+                            return("CO3G_SEPT");
+                        if(month.equals("10"))
+                            return("CO3G_OCT");
+                        break;
+                    }
+                    case "fourth":
+                    {   if(month.equals("12"))
+                        return("CO4G_DEC");
+                        if(month.equals("1"))
+                            return("CO4G_JAN");
+                        if(month.equals("2"))
+                            return("CO4G_FEB");
+                        if(month.equals("3"))
+                            return("CO4G_MARCH");
+                        break;
+                    }
+                    case "fifth":
+                    {
+                        if(month.equals("6"))
+                            return("CO5G_JUNE");
+                        if(month.equals("7"))
+                            return("CO5G_JULY");
+                        if(month.equals("8"))
+                            return("CO5G_AUGUST");
+                        if(month.equals("9"))
+                            return("CO5G_SEPT");
+                        if(month.equals("10"))
+                            return("CO5G_OCT");
+
+                        break;
+                    }
+                    case "sixth":
+                    {
+                        if(month.equals("12"))
+                            return("CO6G_DEC");
+                        if(month.equals("1"))
+                            return("CO6G_JAN");
+                        if(month.equals("2"))
+                            return("CO6G_FEB");
+                        if(month.equals("3"))
+                            return("CO6G_MARCH");
+                        break;
+                    }
+                }
+
+
+
+
+
+
+                break;
+            }
+            default:
+                return("no record found");
+        }
+        return null;
+
+
+
+
+    }
+
+
+    public ArrayList<defaultdetails>  defaulterFor1month (String tablename)
+    {
+        SQLiteDatabase db = getWritableDatabase();
         String [] columns ={"rollno","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"};
         Cursor cursor = db.query (tablename,columns,null,null,null,null,null);
-        while (cursor.moveToNext())
-        {
-            int c=0,holiday=0;
-            for (int i=1;i<=31;i++)
-            {
-                if(cursor.getString(i).equals("p"))
+        Cursor cur2;
+
+        while (cursor.moveToNext()) {
+            double c=0.00,holiday = 0.00;
+            for (int i = 1; i <= 31; i++) {
+                if (cursor.getString(i).equalsIgnoreCase("present"))
                     c++;
-                else
-                {
-                    if(cursor.getString(i).equals(null))
+
+
+                else {
+                    if (cursor.getString(i).equalsIgnoreCase(null))
                         holiday++;
                 }
             }
-            double defaulterpercent=(c/(31-holiday))*100;
-            if(defaulterpercent  <75)
-            {
-                String[] col={"FirstName","Last_name","roll_no"};
-                Cursor cur2=db.query(Table_name,col,"roll_no="+roll_no,null,null,null,null);
-                defaultdetails dd=new defaultdetails(cur2.getString(0),cur2.getString(1),cur2.getString(2),defaulterpercent);
-                al.add(dd);
+            double defaulterpercent = (c / (31 - holiday)) * 100;
+            if (defaulterpercent < 75) {
+                String[] col = {"FirstName", "rollno", "Course"};
+                cur2 = db.query(Table_name, col,"rollno ="+cursor.getString(cursor.getColumnIndex(roll_no)),null, null, null, null);
+                cur2.moveToFirst();
+                dd = new defaultdetails(cur2.getString(cur2.getColumnIndex(Firstname)) + "  ", cur2.getString(cur2.getColumnIndex(roll_no)) + "  ", cur2.getString(cur2.getColumnIndex(Course)) + " ", defaulterpercent);
+
             }
+
         }
-        return al;
+
+        al1=dd.getTemp();
+        return al1;
     }
+
+    //get email id to send mail
+
+    public ArrayList<emailStructure> getEmail(String[] rollno)
+    {
+        SQLiteDatabase db=getReadableDatabase();
+        String[] col={"FirstName","Last_name","roll_no","Course","Email_id"};
+        int i=0;
+        Cursor cursor;
+        ArrayList<emailStructure> e=new ArrayList<>();
+        while(i<rollno.length) {
+            cursor = db.query(Table_name, col, "roll_no=" + rollno[i], null, null, null, null);
+            emailStructure temp = new emailStructure(cursor.getString(0) + cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4));
+            e.add(temp);
+            i++;
+        }
+
+        return e;
+    }
+
 }
-
-

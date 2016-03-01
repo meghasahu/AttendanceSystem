@@ -743,27 +743,28 @@ public class DatabaseHandlerPrasad extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         String [] columns ={"rollno","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"};
         Cursor cursor = db.query (tablename,columns,null,null,null,null,null);
+        Cursor cur2;
 
            while (cursor.moveToNext()) {
-               int c = 0, holiday = 0;
+               double c=0.00,holiday = 0.00;
                for (int i = 1; i <= 31; i++) {
-                   if (cursor.getString(i).equalsIgnoreCase("p"))
-                       c++;
+                   if (cursor.getString(i).equalsIgnoreCase("present"))
+                      c++;
+
+
                    else {
                        if (cursor.getString(i).equalsIgnoreCase(null))
-                           holiday++;
+                            holiday++;
                    }
                }
               double defaulterpercent = (c / (31 - holiday)) * 100;
               if (defaulterpercent < 75) {
-                   String[] col = {"FirstName", "rollno", "Course"};
-                   Cursor cur2;
-                   cur2 = db.query(Table_name, col, "rollno=" + cursor.getString(1), null, null, null, null);
-                   cur2.moveToFirst();
+                  String[] col = {"FirstName", "rollno", "Course"};
+                  cur2 = db.query(Table_name, col,"rollno ="+cursor.getString(cursor.getColumnIndex(roll_no)),null, null, null, null);
+                  cur2.moveToFirst();
                   dd = new defaultdetails(cur2.getString(cur2.getColumnIndex(Firstname)) + "  ", cur2.getString(cur2.getColumnIndex(roll_no)) + "  ", cur2.getString(cur2.getColumnIndex(Course)) + " ", defaulterpercent);
-                   cur2.close();
-               }
 
+                  }
            }
 
         al1=dd.getTemp();
@@ -779,7 +780,7 @@ public class DatabaseHandlerPrasad extends SQLiteOpenHelper {
         int i=0;
         Cursor cursor;
         ArrayList<emailStructure> e=new ArrayList<>();
-        while(i<rollno.length) {
+        while(i < rollno.length) {
             cursor = db.query(Table_name, col, "roll_no=" + rollno[i], null, null, null, null);
             emailStructure temp = new emailStructure(cursor.getString(0) + cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4));
             e.add(temp);
