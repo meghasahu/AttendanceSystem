@@ -26,12 +26,14 @@ public class record extends Activity implements View.OnClickListener {
     String sem;
     String teacher;
     String rollno;
-    String month;
+    String month,mon;
     EditText et1;
     adapter ad;
+    monthadapter ad2;
     Calendar cal;
     ArrayList<defaultdetails> al2;
     ArrayList<emailStructure> e;
+    ArrayList<dmonth> d;
 
 
     protected void onCreate(Bundle b) {
@@ -47,6 +49,9 @@ public class record extends Activity implements View.OnClickListener {
 
 
         b1 = (Button) findViewById(R.id.displaydata);
+
+        cal = Calendar.getInstance();
+        month = String.valueOf(1 + (cal.get(Calendar.MONTH)));
 
         //adding data in 1 spinner
         String[] arr = {"information", "computer", "electronics"};
@@ -119,25 +124,19 @@ public class record extends Activity implements View.OnClickListener {
         if (s3.getSelectedItemId() == s3.getItemIdAtPosition(0)) {
             listviewsetter();
 
-        } else if (s3.getSelectedItemId() == s3.getItemIdAtPosition(1)) {
+        }
+        else
+        if (s3.getSelectedItemId() == s3.getItemIdAtPosition(1)) {
+        rollviewsetter();
 
-            rollno = et1.getText().toString();
-
-            Intent i = new Intent(getApplicationContext(), byrollno.class);
-            startActivity(i);
-
-        } else if (s3.getSelectedItemId() == s3.getItemIdAtPosition(2)) {
-            month = et1.getText().toString();
-            Intent i = new Intent(record.this, bymonth.class);
-            startActivity(i);
+        } else
+        if (s3.getSelectedItemId() == s3.getItemIdAtPosition(2)) {
+         monthviewsetter();
         }
     }
 
     // listview setter for defaulter list
     public void listviewsetter() {
-
-        cal = Calendar.getInstance();
-        month = String.valueOf(1 + (cal.get(Calendar.MONTH)));
 
         setContentView(R.layout.listviewmain);
 
@@ -152,8 +151,7 @@ public class record extends Activity implements View.OnClickListener {
                     ListView list = (ListView) findViewById(R.id.defaulter_list);
 
                     ad = new adapter(this, al2);
-
-                    list.setAdapter(ad);
+                list.setAdapter(ad);
 
 
             }
@@ -174,10 +172,13 @@ public class record extends Activity implements View.OnClickListener {
              @Override
              public void onClick(View v) {
                  String temp[]={null};
+                 String temp2[]={null};
 
                  for(int i=0;i<al2.size();i++)
                  {
                      temp[i]=  al2.get(i).drollno;
+                     temp2[i]=Double.toString(al2.get(i).dattendance);
+
                  }
 
                  Intent intent=new Intent(record.this,send.class);
@@ -186,6 +187,7 @@ public class record extends Activity implements View.OnClickListener {
                      DatabaseHandlerPrasad pg = new DatabaseHandlerPrasad(getApplicationContext(), null, null, 1);
                      e=pg.getEmail(temp);
                      intent.putParcelableArrayListExtra("tempdata",e);
+                     intent.putExtra("tempdata2attend",temp2);
 
 
                  }      else
@@ -194,6 +196,7 @@ public class record extends Activity implements View.OnClickListener {
                          DatabaseHandlerSudhir pg = new DatabaseHandlerSudhir(getApplicationContext(), null, null, 1);
                          e=pg.getEmail(temp);
                          intent.putParcelableArrayListExtra("tempdata",e);
+                             intent.putExtra("tempdata2attend",temp2);
                          }
 
                  startActivity(intent);
@@ -201,5 +204,59 @@ public class record extends Activity implements View.OnClickListener {
          });
 
     }
+public void monthviewsetter()
+{
+    mon = et1.getText().toString();
+
+    setContentView(R.layout.monthlistview);
+
+    switch (teacher) {
+        case "prasad":
+            DatabaseHandlerPrasad pg = new DatabaseHandlerPrasad(getApplicationContext(), null, null, 1);
+            d = pg.getUsersbymonth(pg.Tablenamereturns(course, sem, mon));
+            ListView list = (ListView) findViewById(R.id.month_list);
+
+            ad2 = new monthadapter(this, d);
+            list.setAdapter(ad2);
+            break;
+        case "sudhir":
+
+            DatabaseHandlerSudhir su = new DatabaseHandlerSudhir(getApplicationContext(), null, null, 1);
+            d = su.getUsersbymonth(su.Tablenamereturns(course, sem, month));
+            ListView list1 = (ListView) findViewById(R.id.month_list);
+
+            ad2 = new monthadapter(this, d);
+
+            list1.setAdapter(ad2);
+            break;
+    }
+
+    Intent i=new Intent(record.this,)
+}
+    public void rollviewsetter()
+    {
+        rollno = et1.getText().toString();
+        setContentView(R.layout.monthlistview);
+
+        switch (teacher) {
+            case "prasad":
+                DatabaseHandlerPrasad pg = new DatabaseHandlerPrasad(getApplicationContext(), null, null, 1);
+                d = pg.getUsers(pg.Tablenamereturns(course, sem, month), rollno);
+                ListView list = (ListView) findViewById(R.id.month_list);
+                ad2 = new monthadapter(this, d);
+                list.setAdapter(ad2);
+                break;
+            case "sudhir":
+
+                DatabaseHandlerSudhir su = new DatabaseHandlerSudhir(getApplicationContext(), null, null, 1);
+                d = su.getUsers(su.Tablenamereturns(course, sem, month), rollno);
+                ListView list1 = (ListView) findViewById(R.id.month_list);
+                ad2 = new monthadapter(this, d);
+                list1.setAdapter(ad2);
+                break;
+        }
+
+    }
+
 
 }

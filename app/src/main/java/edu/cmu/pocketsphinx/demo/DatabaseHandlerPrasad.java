@@ -17,6 +17,7 @@ public class DatabaseHandlerPrasad extends SQLiteOpenHelper {
 
     public defaultdetails dd;
     public emailStructure emailtemp;
+    public dmonth m;
 
     public static final int database_version=1;
     public static final String DataBase_name="Prasad.db";
@@ -777,13 +778,17 @@ public class DatabaseHandlerPrasad extends SQLiteOpenHelper {
     public ArrayList<emailStructure> getEmail(String[] rollno)
     {
         SQLiteDatabase db=getReadableDatabase();
-        String[] col={"FirstName","Last_name","roll_no","Course","Email_id","PhoneNo"};
+        String[] col={"FirstName","roll_no","Course","Email_id","PhoneNo"};
         int i=0;
         Cursor cursor;
         ArrayList<emailStructure> e=new ArrayList<>();
         while(i < rollno.length) {
             cursor = db.query(Table_name, col, "roll_no=" + rollno[i], null, null, null, null);
-            emailtemp = new emailStructure(cursor.getString(0) + cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),cursor.getString(cursor.getColumnIndex(col_phone)));
+            emailtemp = new emailStructure(cursor.getString(cursor.getColumnIndex(Firstname)),
+                    cursor.getString(cursor.getColumnIndex(roll_no)),
+                    cursor.getString(cursor.getColumnIndex(Course)),
+                    cursor.getString(cursor.getColumnIndex(Email_id)),
+                    cursor.getString(cursor.getColumnIndex(col_phone)));
             i++;
         }
 
@@ -792,6 +797,71 @@ public class DatabaseHandlerPrasad extends SQLiteOpenHelper {
         return e;
             }
 
+
+    //month retrieval
+
+    public ArrayList<dmonth>  getUsers(String tablename , String roll) {
+
+        Cursor cursor;
+
+        ArrayList<dmonth> user = new ArrayList<dmonth>();
+        SQLiteDatabase db =getWritableDatabase();
+
+        String[] columns = {"rollno","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"};
+        if(roll==null)
+            cursor=db.query (tablename,columns,null,null,null,null,null);
+        else
+            cursor=db.query(tablename, columns,"rollno+="+roll,null,null ,null,null);
+
+        while(cursor.moveToNext())
+        {
+            m = new dmonth(cursor.getString(cursor.getColumnIndex(roll_no)), cursor.getString(1),
+                    cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5),
+                    cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9),
+                    cursor.getString(10), cursor.getString(11), cursor.getString(12), cursor.getString(13),
+                    cursor.getString(14), cursor.getString(15), cursor.getString(16), cursor.getString(17),
+                    cursor.getString(18), cursor.getString(19), cursor.getString(20), cursor.getString(21),
+                    cursor.getString(22), cursor.getString(23), cursor.getString(24), cursor.getString(25),
+                    cursor.getString(26), cursor.getString(27), cursor.getString(28),
+                    cursor.getString(29), cursor.getString(30),cursor.getString(31));
+        }
+
+        user= m.getTemp();
+        return user;
+    }
+
+    public ArrayList<dmonth>  getUsersbymonth(String tablename) {
+
+        Cursor cursor;
+
+        ArrayList<dmonth> user = new ArrayList<dmonth>();
+        SQLiteDatabase db =getWritableDatabase();
+
+        String[] columns = {"rollno","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"};
+
+            cursor=db.query(tablename,columns,null,null,null ,null,null);
+
+        cursor.moveToNext();
+
+        while(!cursor.isAfterLast())
+        {
+            m = new dmonth(cursor.getString(cursor.getColumnIndex(roll_no)), cursor.getString(1),
+                    cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5),
+                    cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9),
+                    cursor.getString(10), cursor.getString(11), cursor.getString(12), cursor.getString(13),
+                    cursor.getString(14), cursor.getString(15), cursor.getString(16), cursor.getString(17),
+                    cursor.getString(18), cursor.getString(19), cursor.getString(20), cursor.getString(21),
+                    cursor.getString(22), cursor.getString(23), cursor.getString(24), cursor.getString(25),
+                    cursor.getString(26), cursor.getString(27), cursor.getString(28),
+                    cursor.getString(29), cursor.getString(30),cursor.getString(31));
+        }
+
+        user= m.getTemp();
+        return user;
+    }
 }
+
+
+
 
 

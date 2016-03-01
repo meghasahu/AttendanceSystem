@@ -26,7 +26,7 @@ public class send extends Activity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.send);
 
@@ -39,15 +39,6 @@ public class send extends Activity {
         ch2 = (CheckBox) findViewById(R.id.checkother);
 
 
-        ch2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (ch2.isChecked()) {
-                    et1.setVisibility(View.VISIBLE);
-                    et1.setText("enter data");
-                }
-            }
-        });
 
         //send email
 
@@ -55,28 +46,52 @@ public class send extends Activity {
             @Override
             public void onClick(View v) {
 
-                ArrayList<emailStructure> e;
-                int i = 0;
-                Intent intent2 = null, chooser = null;
-                Intent intent = getIntent();
-                e = intent.getParcelableArrayListExtra("tempdata");
 
-                intent2 = new Intent(Intent.ACTION_SEND);
-                intent2.setData(Uri.parse("mailto:"));
+                   String temp;
+                   ArrayList<emailStructure> e;
+                   int i = 0;
+                   Intent intent2 = null, chooser = null;
+                   Intent intent = getIntent();
+                   e = intent.getParcelableArrayListExtra("tempdata");
+                   temp=intent.getStringExtra("tempdata2attend");
 
-                while (!e.isEmpty()) {
+                   intent2 = new Intent(Intent.ACTION_SEND);
+                   intent2.setData(Uri.parse("mailto:"));
 
-                    intent.putExtra(Intent.EXTRA_EMAIL, e.get(i).emailid);
-                    intent.putExtra(Intent.EXTRA_SUBJECT, "Regarding your child attendance");
-                    intent.putExtra(Intent.EXTRA_TEXT, "Dear parents, \n We are informing you that your child's is not attending all the lectures.Hence ");
-                    i++;
+                if(ch1.isChecked()) {
 
-                    intent.setType("message/rfc822");
+                   while (!e.isEmpty()) {
 
-                    chooser=Intent.createChooser(intent,"send email");
-                    startActivity(chooser);
-                }
+                       intent2.putExtra(Intent.EXTRA_EMAIL, e.get(i).emailid);
+                       intent2.putExtra(Intent.EXTRA_SUBJECT, "Regarding your child attendance");
+                       intent2.putExtra(Intent.EXTRA_TEXT, "Dear parents, \n We are informing you that your child's is not attending all the lectures.Hence ");
+                       i++;
 
+                       intent2.setType("message/rfc822");
+
+                       chooser = Intent.createChooser(intent, "send email");
+                       startActivity(chooser);
+                   }
+               }
+                else
+                   if (ch2.isChecked())
+                   {
+                       et1.setVisibility(View.VISIBLE);
+                       et1.setText("enter emailId");
+
+                       while(!e.isEmpty()) {
+
+                           intent2.putExtra(Intent.EXTRA_TEXT,"" );
+                       }
+                       intent2.putExtra(Intent.EXTRA_EMAIL, et1.getText());
+                       intent2.putExtra(Intent.EXTRA_SUBJECT, "Defaulter list");
+
+                       intent2.setType("message/rfc822");
+
+                       chooser = Intent.createChooser(intent, "send email");
+                       startActivity(chooser);
+
+                   }
             }
         });
 
