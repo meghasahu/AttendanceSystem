@@ -772,12 +772,13 @@ public class DatabaseHandlerSudhir extends SQLiteOpenHelper {
     public ArrayList<emailStructure> getEmail(String[] rollno)
     {
         SQLiteDatabase db=getReadableDatabase();
-        String[] col={"FirstName","roll_no","Course","Email_id","PhoneNo"};
+        String[] col={"FirstName","rollno","Course","EmailId","PhoneNo"};
         int i=0;
         Cursor cursor;
         ArrayList<emailStructure> e=new ArrayList<>();
         while(i < rollno.length) {
-            cursor = db.query(Table_name, col, "roll_no=" + rollno[i], null, null, null, null);
+            cursor = db.query(Table_name, col, "rollno=" + rollno[i], null, null, null, null);
+            cursor.moveToFirst();
             emailtemp = new emailStructure(cursor.getString(cursor.getColumnIndex(Firstname)),
                     cursor.getString(cursor.getColumnIndex(roll_no)),
                     cursor.getString(cursor.getColumnIndex(Course)),
@@ -802,7 +803,7 @@ public class DatabaseHandlerSudhir extends SQLiteOpenHelper {
         if(roll==null)
             cursor=db.query (tablename,columns,null,null,null,null,null);
         else
-            cursor=db.query(tablename, columns,"rollno+="+roll,null,null ,null,null);
+            cursor=db.query(tablename, columns,"rollno="+roll,null,null ,null,null);
 
         while(cursor.moveToNext())
         {

@@ -778,12 +778,14 @@ public class DatabaseHandlerPrasad extends SQLiteOpenHelper {
     public ArrayList<emailStructure> getEmail(String[] rollno)
     {
         SQLiteDatabase db=getReadableDatabase();
-        String[] col={"FirstName","roll_no","Course","Email_id","PhoneNo"};
+        String[] col={"FirstName","rollno","Course","EmailId","PhoneNo"};
         int i=0;
         Cursor cursor;
         ArrayList<emailStructure> e=new ArrayList<>();
         while(i < rollno.length) {
-            cursor = db.query(Table_name, col, "roll_no=" + rollno[i], null, null, null, null);
+            cursor = db.query(Table_name, col, "rollno=" + rollno[i], null, null, null, null);
+            cursor.moveToFirst();
+
             emailtemp = new emailStructure(cursor.getString(cursor.getColumnIndex(Firstname)),
                     cursor.getString(cursor.getColumnIndex(roll_no)),
                     cursor.getString(cursor.getColumnIndex(Course)),
@@ -811,7 +813,7 @@ public class DatabaseHandlerPrasad extends SQLiteOpenHelper {
         if(roll==null)
             cursor=db.query (tablename,columns,null,null,null,null,null);
         else
-            cursor=db.query(tablename, columns,"rollno+="+roll,null,null ,null,null);
+            cursor=db.query(tablename, columns,"rollno="+roll,null,null ,null,null);
 
         while(cursor.moveToNext())
         {
@@ -841,11 +843,9 @@ public class DatabaseHandlerPrasad extends SQLiteOpenHelper {
 
             cursor=db.query(tablename,columns,null,null,null ,null,null);
 
-        cursor.moveToNext();
-
-        while(!cursor.isAfterLast())
+        while(cursor.moveToNext())
         {
-            m = new dmonth(cursor.getString(cursor.getColumnIndex(roll_no)), cursor.getString(1),
+           m= new dmonth(cursor.getString(cursor.getColumnIndex(roll_no)), cursor.getString(1),
                     cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5),
                     cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9),
                     cursor.getString(10), cursor.getString(11), cursor.getString(12), cursor.getString(13),

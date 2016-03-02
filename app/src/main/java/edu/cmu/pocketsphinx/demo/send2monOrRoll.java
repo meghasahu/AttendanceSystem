@@ -11,7 +11,7 @@ public class send2monOrRoll extends Activity{
     protected void onCreate(Bundle b)
     {
         super.onCreate(b);
-        setContentView(R.layout.send2monOrRoll);
+        setContentView(R.layout.send2monorroll);
 
 
     }
