@@ -65,6 +65,18 @@
         android:layout_below="@+id/choose_process"
         android:visibility="invisible"/>
 
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/monthfortable"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/enterrollormonth"
+        android:spinnerMode="dropdown"
+        android:entries="@array/month_option"
+        android:visibility="invisible">
+
+    </Spinner>
+
 
     <Button
         android:layout_width="wrap_content"
