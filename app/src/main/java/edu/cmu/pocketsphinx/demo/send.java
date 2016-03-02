@@ -117,6 +117,8 @@ public class send extends Activity {
             }
         });
 
+
+       // send sms
         b2.setOnClickListener(new View.OnClickListener() {
 
             @Override
