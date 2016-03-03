@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,8 +12,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -30,11 +30,9 @@ public class record extends Activity implements View.OnClickListener {
     String month,mon;
     EditText et1;
     adapter ad;
-    monthadapter ad2;
     Calendar cal;
-    ArrayList<defaultdetails> al2;
+    public static ArrayList<defaultdetails> al2;
     ArrayList<emailStructure> e;
-    ArrayList<dmonth> arraylistmonth;
 
 
     protected void onCreate(Bundle b) {
@@ -79,8 +77,8 @@ public class record extends Activity implements View.OnClickListener {
         ad4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         s4.setAdapter(ad4);
 
-        String[] arr5 = {"1", "2","3","4","5","6","7","8","9","10","11","12"};
-        ArrayAdapter<String> ad5 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, arr5);
+        String[] arr5 = {"1", "2","3","6","7","8","9","10","12"};
+        ArrayAdapter<String> ad5 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item,arr5);
         ad5.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         smonth.setAdapter(ad5);
 
@@ -133,19 +131,29 @@ public class record extends Activity implements View.OnClickListener {
         sem = s2.getSelectedItem().toString();
         teacher = s4.getSelectedItem().toString();
         mon=smonth.getSelectedItem().toString();
+        rollno=et1.getText().toString();
 
 
         if (s3.getSelectedItemId() == s3.getItemIdAtPosition(0)) {
+            al2=null;
             listviewsetter();
+            }
 
-        }
+
         else
         if (s3.getSelectedItemId() == s3.getItemIdAtPosition(1)) {
-        rollviewsetter();
+            Intent i=new Intent(record.this,byrollno.class);
+            String[] array={teacher,course,sem,rollno,month};
+            i.putExtra("string",array);
+            startActivity(i);
 
         } else
         if (s3.getSelectedItemId() == s3.getItemIdAtPosition(2)) {
-         monthviewsetter();
+            Intent i=new Intent(record.this,bymonth.class);
+            String[] array={teacher,course,sem,month};
+            i.putExtra("string",array);
+            startActivity(i);
+
         }
     }
 
@@ -157,45 +165,32 @@ public class record extends Activity implements View.OnClickListener {
         Button b2 = (Button)findViewById(R.id.send);
 
         if (teacher.equalsIgnoreCase("Prasad")) {
+            al2=null;
+            DatabaseHandlerPrasad pg = new DatabaseHandlerPrasad(this, null, null, 1);
+            al2 = pg.defaulterFor1month(pg.Tablenamereturns(course,sem,month));
 
-                DatabaseHandlerPrasad pg = new DatabaseHandlerPrasad(this, null, null, 1);
-
-               al2 = pg.defaulterFor1month(pg.Tablenamereturns(course,sem,month));
-
-                    ListView list = (ListView) findViewById(R.id.defaulter_list);
-
-                    ad = new adapter(this, al2);
-                list.setAdapter(ad);
-
-
-            }
+            ListView list = (ListView) findViewById(R.id.defaulter_list);
+            ad = new adapter(this, al2);
+            list.setAdapter(ad);
+        }
             else if (teacher.equalsIgnoreCase("sudhir")) {
 
-                DatabaseHandlerPrasad pg = new DatabaseHandlerPrasad(this, null, null, 1);
-
-                al2 = pg.defaulterFor1month(pg.Tablenamereturns(course,sem,month));
-
-                ListView list = (ListView) findViewById(R.id.defaulter_list);
-
-                ad = new adapter(this, al2);
-
-                list.setAdapter(ad);
-
-            }
+            al2=null;
+            DatabaseHandlerPrasad pg = new DatabaseHandlerPrasad(this, null, null, 1);
+            al2 = pg.defaulterFor1month(pg.Tablenamereturns(course,sem,month));
+            ListView list = (ListView) findViewById(R.id.defaulter_list);
+            ad = new adapter(this, al2);
+            list.setAdapter(ad);
+        }
         b2.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
                  String[] temp = new String[al2.size()];
-                 String[] temp2=new String[al2.size()];
                  Intent intent=new Intent(record.this,send.class);
-
 
                  for(int i=0;i<al2.size();i++)
                  {
                      temp[i]=  al2.get(i).drollno;
-                     temp2[i]=Double.toString(al2.get(i).dattendance);
-                     intent.putExtra("tempdata2attend",temp2[i]);
-
                  }
 
                  if(teacher.equalsIgnoreCase("prasad")) {
@@ -217,51 +212,12 @@ public class record extends Activity implements View.OnClickListener {
          });
 
     }
-public void monthviewsetter()
-{
-   mon=smonth.getSelectedItem().toString();
-    setContentView(R.layout.monthlistview);
-    ListView list = (ListView) findViewById(R.id.month_list);
 
-    switch (teacher) {
-        case "prasad":
-            DatabaseHandlerPrasad pg = new DatabaseHandlerPrasad(getApplicationContext(), null, null, 1);
-            arraylistmonth = pg.getUsersbymonth(pg.Tablenamereturns(course, sem, mon));
-            ad2 = new monthadapter(this,arraylistmonth);
-            list.setAdapter(ad2);
-            break;
-        case "sudhir":
-
-            DatabaseHandlerSudhir su = new DatabaseHandlerSudhir(getApplicationContext(), null, null, 1);
-            arraylistmonth = su.getUsersbymonth(su.Tablenamereturns(course, sem, month));
-            ad2 = new monthadapter(this, arraylistmonth);
-            list.setAdapter(ad2);
-            break;
+    public File getFile(Context context){
+        File temp;
+        GenerateFile g=new GenerateFile(al2);
+        temp= g.saveDataDefaulters(context);
+        return temp;
     }
-}
-    public void rollviewsetter()
-    {
-        rollno = et1.getText().toString();
-        setContentView(R.layout.monthlistview);
-        ListView list = (ListView) findViewById(R.id.month_list);
-
-        switch (teacher) {
-            case "prasad":
-                DatabaseHandlerPrasad pg = new DatabaseHandlerPrasad(getApplicationContext(), null, null, 1);
-                arraylistmonth = pg.getUsers(pg.Tablenamereturns(course, sem, month), rollno);
-                ad2 = new monthadapter(this, arraylistmonth);
-                list.setAdapter(ad2);
-                break;
-            case "sudhir":
-
-                DatabaseHandlerSudhir su = new DatabaseHandlerSudhir(getApplicationContext(), null, null, 1);
-                arraylistmonth = su.getUsers(su.Tablenamereturns(course, sem, month), rollno);
-                ad2 = new monthadapter(this, arraylistmonth);
-                list.setAdapter(ad2);
-                break;
-        }
-
-    }
-
 
 }

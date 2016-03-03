@@ -12,6 +12,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -23,13 +24,23 @@ public class send extends Activity {
     Button b1, b2;
     EditText et1;
     CheckBox ch1, ch2;
+    ArrayList<emailStructure> e;
+    Intent intent;
+    String[] temp={" "};
 
 
     @Override
-    protected void onCreate(final Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.send);
+        int i=0;
 
+        intent = getIntent();
+        e = intent.getParcelableArrayListExtra("tempdata");
+
+        while(temp[i]!=null) {
+            temp[i] = intent.getStringExtra(("tempdata2attend"));
+        }
         b1 = (Button) findViewById(R.id.sendmail);
         b2 = (Button) findViewById(R.id.sms);
 
@@ -37,6 +48,7 @@ public class send extends Activity {
 
         ch1 = (CheckBox) findViewById(R.id.checkbox1);
         ch2 = (CheckBox) findViewById(R.id.checkother);
+
 
         ch2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,99 +60,93 @@ public class send extends Activity {
                 }
                 else
                     et1.setVisibility(View.INVISIBLE);
-
             }
-        });
+    });
+
+    //send email
+
+    b1.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            try {
+                sendDefault();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
+    });
+
+    b2.setOnClickListener(new View.OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            smsDefault();
+        }
+    });
+}
+
+    public void sendDefault() throws IOException {
+        int i = 0;
+        Intent intent2 = null, chooser = null;
+        intent2 = new Intent(Intent.ACTION_SEND);
+        intent2.setData(Uri.parse("mailto:"));
+
+        Intent intent3 = new Intent(Intent.ACTION_SEND);
+        intent3.setData(Uri.parse("mailto:"));
 
 
+        String sendTo[] = new String[e.size()];
+        while (i < e.size()) {
+            sendTo[i] = e.get(i).emailid;
+            i++;
+        }
 
-        //send email
+        if (ch1.isChecked()) {
+            intent3.putExtra(Intent.EXTRA_EMAIL, sendTo);
+            intent3.putExtra(Intent.EXTRA_SUBJECT, "Regarding your child attendance");
+            intent3.putExtra(Intent.EXTRA_TEXT, "Dear parents, \n We are informing you that your child's is not attending all the lectures.Hence ");
 
-        b1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String[] temp={" "};
-                   ArrayList<emailStructure> e;
-                   int i = 0;
-                   Intent intent2 = null, chooser = null;
-                   Intent intent = getIntent();
-                   e = intent.getParcelableArrayListExtra("tempdata");
+            intent3.setType("text/plain");
+            try {
 
-
-               while(temp[i]!=null) {
-                   temp[i] = intent.getStringExtra(("tempdata2attend"));
-               }
-
-                   intent2 = new Intent(Intent.ACTION_SEND);
-                   intent2.setData(Uri.parse("mailto:"));
-
-                String sendTo[]=new String[e.size()];
-
-                while (i<e.size()) {
-
-                    sendTo[i]=e.get(i).emailid;
+                chooser = Intent.createChooser(intent3, "send email");
+                startActivity(chooser);
+                Toast.makeText(getApplicationContext(), "sent", Toast.LENGTH_SHORT);
+            } catch (android.content.ActivityNotFoundException e) {
+                Toast.makeText(getApplicationContext(), "No email client installed", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            if (ch2.isChecked()) {
+                record r = new record();
+                Uri uri = Uri.fromFile(r.getFile(this));
+                String id = et1.getText().toString();
+                intent2.putExtra(Intent.EXTRA_TEXT, " hey  ");
+                intent2.putExtra(Intent.EXTRA_STREAM, uri);
+                intent2.putExtra(Intent.EXTRA_EMAIL, id);
+                intent2.putExtra(Intent.EXTRA_SUBJECT, "Defaulter list");
+                intent2.setType("text/plain");
+                try {
+                    chooser = Intent.createChooser(intent2, "send email");
+                    startActivity(chooser);
+                    Toast.makeText(getApplicationContext(), "sent to others", Toast.LENGTH_SHORT);
+                } catch (android.content.ActivityNotFoundException e) {
+                    Toast.makeText(getApplicationContext(), "No email client installed", Toast.LENGTH_SHORT).show();
                 }
 
-                if(ch1.isChecked()) {
-
-
-                       intent2.putExtra(Intent.EXTRA_EMAIL,sendTo);
-                       intent2.putExtra(Intent.EXTRA_SUBJECT, "Regarding your child attendance");
-                       intent2.putExtra(Intent.EXTRA_TEXT, "Dear parents, \n We are informing you that your child's is not attending all the lectures.Hence ");
-
-                       intent2.setType("message/rfc822");
-
-                       chooser = Intent.createChooser(intent2, "send email");
-                       startActivity(chooser);
-                       Toast.makeText(getApplicationContext(),"sent",Toast.LENGTH_SHORT);
-                       i++;
-
-               }
-                else
-                   if (ch2.isChecked())
-                   {
-
-                       while(!e.isEmpty()) {
-
-                           intent2.putExtra(Intent.EXTRA_TEXT," hey  " );
-                       }
-                       intent2.putExtra(Intent.EXTRA_EMAIL, et1.getText().toString());
-                       intent2.putExtra(Intent.EXTRA_SUBJECT, "Defaulter list");
-
-                       intent2.setType("message/rfc822");
-
-                       chooser = Intent.createChooser(intent2, "send email");
-                       startActivity(chooser);
-                       Toast.makeText(getApplicationContext(),"sent to others",Toast.LENGTH_SHORT);
-
-                   }
             }
-        });
+        }
+    }
 
+    public void smsDefault() {
+        if (ch1.isChecked()) {
 
-       // send sms
-        b2.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                if (ch1.isChecked()) {
-                    ArrayList<emailStructure> e;
-                    int i = 0;
-                    Intent intent = getIntent();
-                    e = intent.getParcelableArrayListExtra("tempdata");
-
-                    while (!e.isEmpty()) {
-                        SmsManager sms_manager = SmsManager.getDefault();
-                        sms_manager.sendTextMessage(e.get(i).col_phone, null,"hello", null, null);
-                    }
-                }
-
-                else
-                    Toast.makeText(getApplicationContext(),"please select option defaulters",Toast.LENGTH_SHORT).show();
+            int i = 0;
+            while (!e.isEmpty()) {
+                SmsManager sms_manager = SmsManager.getDefault();
+                sms_manager.sendTextMessage(e.get(i).col_phone, null, "  ", null, null);
             }
-        });
-
+        } else
+            Toast.makeText(getApplicationContext(), "please select option defaulters", Toast.LENGTH_SHORT).show();
 
     }
 }

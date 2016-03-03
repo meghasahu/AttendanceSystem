@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -746,30 +748,34 @@ public class DatabaseHandlerPrasad extends SQLiteOpenHelper {
         String [] columns ={"rollno","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"};
         Cursor cursor = db.query (tablename,columns,null,null,null,null,null);
         Cursor cur2;
+           try {
+               while (cursor.moveToNext()) {
+                   double c = 0.00, holiday = 0.00;
+                   for (int i = 1; i <= 31; i++) {
+                       if (cursor.getString(i).equalsIgnoreCase("present"))
+                           c++;
 
-           while (cursor.moveToNext()) {
-               double c=0.00,holiday = 0.00;
-               for (int i = 1; i <= 31; i++) {
-                   if (cursor.getString(i).equalsIgnoreCase("present"))
-                      c++;
 
+                       else {
+                           if (cursor.getString(i).equalsIgnoreCase(null))
+                               holiday++;
+                       }
+                   }
+                   double defaulterpercent = (c / (31 - holiday)) * 100;
+                   if (defaulterpercent < 75) {
+                       String[] col = {"FirstName", "rollno", "Course"};
+                       cur2 = db.query(Table_name, col, "rollno =" + cursor.getString(cursor.getColumnIndex(roll_no)), null, null, null, null);
+                       cur2.moveToFirst();
+                       dd = new defaultdetails(cur2.getString(cur2.getColumnIndex(Firstname)) + "  ", cur2.getString(cur2.getColumnIndex(roll_no)) + "  ", cur2.getString(cur2.getColumnIndex(Course)) + " ", defaulterpercent);
 
-                   else {
-                       if (cursor.getString(i).equalsIgnoreCase(null))
-                            holiday++;
                    }
                }
-              double defaulterpercent = (c / (31 - holiday)) * 100;
-              if (defaulterpercent < 75) {
-                  String[] col = {"FirstName", "rollno", "Course"};
-                  cur2 = db.query(Table_name, col,"rollno ="+cursor.getString(cursor.getColumnIndex(roll_no)),null, null, null, null);
-                  cur2.moveToFirst();
-                  dd = new defaultdetails(cur2.getString(cur2.getColumnIndex(Firstname)) + "  ", cur2.getString(cur2.getColumnIndex(roll_no)) + "  ", cur2.getString(cur2.getColumnIndex(Course)) + " ", defaulterpercent);
 
-                  }
+               al1 = dd.getTemp();
            }
-
-        al1=dd.getTemp();
+           catch (NullPointerException e){
+              Log.i("no","Data Found");
+           }
         return al1;
     }
 
@@ -813,7 +819,7 @@ public class DatabaseHandlerPrasad extends SQLiteOpenHelper {
         if(roll==null)
             cursor=db.query (tablename,columns,null,null,null,null,null);
         else
-            cursor=db.query(tablename, columns,"rollno="+roll,null,null ,null,null);
+            cursor=db.query(tablename,columns,"rollno="+roll,null,null ,null,null);
 
         while(cursor.moveToNext())
         {
@@ -854,7 +860,10 @@ public class DatabaseHandlerPrasad extends SQLiteOpenHelper {
                     cursor.getString(22), cursor.getString(23), cursor.getString(24), cursor.getString(25),
                     cursor.getString(26), cursor.getString(27), cursor.getString(28),
                     cursor.getString(29), cursor.getString(30),cursor.getString(31));
+
+            Log.d("  ", "getUsersbymonth() returned: " + cursor.getString(cursor.getColumnIndex(roll_no))+cursor.getString(1));
         }
+
 
         user= m.getTemp();
         return user;

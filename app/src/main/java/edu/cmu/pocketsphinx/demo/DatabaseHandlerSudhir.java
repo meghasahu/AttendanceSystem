@@ -833,9 +833,8 @@ public class DatabaseHandlerSudhir extends SQLiteOpenHelper {
 
         cursor=db.query(tablename,columns,null,null,null ,null,null);
 
-        cursor.moveToNext();
 
-        while(!cursor.isAfterLast())
+        while( cursor.moveToNext())
         {
             m = new dmonth(cursor.getString(cursor.getColumnIndex(roll_no)), cursor.getString(1),
                     cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5),
