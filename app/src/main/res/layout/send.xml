@@ -13,46 +13,45 @@
         android:layout_gravity="center_horizontal" />
 
     <CheckBox
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="defaulters"
         android:checked="true"
-        android:layout_centerHorizontal="true"
-       android:layout_above="@+id/checkother"
-        android:id="@+id/checkbox1"/>
+        android:id="@+id/checkbox1"
+       android:layout_above="@+id/checkother" />
 
     <CheckBox
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="mail to others"
-        android:layout_centerHorizontal="true"
         android:id="@+id/checkother"
-        android:layout_above="@+id/email"
-        android:layout_alignLeft="@+id/checkbox1"/>
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/email"/>
 
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="text"
-        android:layout_centerInParent="true"
+        android:inputType="textEmailAddress"
         android:id="@+id/email"
-        android:visibility="invisible"/>
+        android:visibility="invisible"
+        android:layout_centerInParent="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/sendmail"
         android:text="send mail"
-        android:layout_alignTop="@+id/sms"
-        android:layout_toLeftOf="@+id/email"
-        android:layout_toStartOf="@+id/email" />
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/sms"
         android:text="send sms"
-        android:layout_below="@+id/email"
-        android:layout_toRightOf="@+id/email"
-        android:layout_toEndOf="@+id/email" />
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/sendmail"
+        android:layout_alignParentBottom="true" />
 </RelativeLayout>

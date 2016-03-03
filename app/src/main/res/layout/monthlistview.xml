@@ -15,219 +15,218 @@
         android:text="ROLL NO"
            android:layout_alignParentLeft="true"/>
 
-    //dates
     <TextView
-            android:layout_width="50sp"
+            android:layout_width="100sp"
             android:layout_height="30sp"
             android:id="@+id/header1"
         android:text="day 1"
-            android:layout_toRightOf="@+id/roll"/>
+            android:layout_toRightOf="@+id/rolheader"/>
 
     <TextView
-            android:layout_width="50sp"
+            android:layout_width="100sp"
             android:layout_height="30sp"
             android:id="@+id/header2"
         android:text="day 2"
             android:layout_toRightOf="@+id/header1"/>
 
     <TextView
-        android:layout_width="50sp"
+        android:layout_width="100sp"
         android:layout_height="30sp"
             android:id="@+id/header3"
         android:text="day 3"
             android:layout_toRightOf="@+id/header2"/>
 
     <TextView
-        android:layout_width="50sp"
+        android:layout_width="100sp"
         android:layout_height="30sp"
             android:id="@+id/header4"
         android:text="day 4"
             android:layout_toRightOf="@+id/header3"/>
 
     <TextView
-        android:layout_width="50sp"
+        android:layout_width="100sp"
         android:layout_height="30sp"
             android:id="@+id/header5"
         android:text="day 5"
             android:layout_toRightOf="@+id/header4"/>
 
     <TextView
-        android:layout_width="50sp"
+        android:layout_width="100sp"
         android:layout_height="30sp"
             android:id="@+id/header6"
         android:text="day 6"
             android:layout_toRightOf="@+id/header5"/>
 
     <TextView
-        android:layout_width="50sp"
+        android:layout_width="100sp"
         android:layout_height="30sp"
             android:id="@+id/header7"
         android:text="day 7"
             android:layout_toRightOf="@+id/header6"/>
 
     <TextView
-        android:layout_width="50sp"
+        android:layout_width="100sp"
         android:layout_height="30sp"
             android:id="@+id/header8"
         android:text="day 8"
             android:layout_toRightOf="@+id/header7"/>
 
     <TextView
-        android:layout_width="50sp"
+        android:layout_width="100sp"
         android:layout_height="30sp"
             android:id="@+id/header9"
         android:text="day 9"
             android:layout_toRightOf="@+id/header8"/>
 
     <TextView
-        android:layout_width="50sp"
+        android:layout_width="100sp"
         android:layout_height="30sp"
             android:id="@+id/header10"
         android:text="day 10"
             android:layout_toRightOf="@+id/header9"/>
 
     <TextView
-        android:layout_width="50sp"
+        android:layout_width="100sp"
         android:layout_height="30sp"
             android:id="@+id/header11"
         android:text="day 11"
             android:layout_toRightOf="@+id/header10"/>
 
     <TextView
-        android:layout_width="50sp"
+        android:layout_width="100sp"
         android:layout_height="30sp"
             android:id="@+id/header12"
         android:text="day 12"
             android:layout_toRightOf="@+id/header11"/>
 
     <TextView
-        android:layout_width="50sp"
+        android:layout_width="100sp"
         android:layout_height="30sp"
             android:id="@+id/header13"
         android:text="day 13"
             android:layout_toRightOf="@+id/header12"/>
 
     <TextView
-        android:layout_width="50sp"
+        android:layout_width="100sp"
         android:layout_height="30sp"
             android:id="@+id/header14"
         android:text="day 14"
             android:layout_toRightOf="@+id/header13"/>
 
     <TextView
-        android:layout_width="50sp"
+        android:layout_width="100sp"
         android:layout_height="30sp"
             android:id="@+id/header15"
         android:text="day 15"
             android:layout_toRightOf="@+id/header14"/>
 
     <TextView
-        android:layout_width="50sp"
+        android:layout_width="100sp"
         android:layout_height="30sp"
             android:id="@+id/header16"
         android:text="day 16"
             android:layout_toRightOf="@+id/header15"/>
 
     <TextView
-        android:layout_width="50sp"
+        android:layout_width="100sp"
         android:layout_height="30sp"
             android:id="@+id/header17"
         android:text="day 17"
             android:layout_toRightOf="@+id/header16"/>
 
     <TextView
-        android:layout_width="50sp"
+        android:layout_width="100sp"
         android:layout_height="30sp"
             android:id="@+id/header18"
         android:text="day 18"
             android:layout_toRightOf="@+id/header17"/>
 
     <TextView
-        android:layout_width="50sp"
+        android:layout_width="100sp"
         android:layout_height="30sp"
             android:id="@+id/header19"
         android:text="day 20"
             android:layout_toRightOf="@+id/header18"/>
 
     <TextView
-        android:layout_width="50sp"
+        android:layout_width="100sp"
         android:layout_height="30sp"
             android:id="@+id/header20"
         android:text="day 20"
             android:layout_toRightOf="@+id/header19"/>
 
     <TextView
-        android:layout_width="50sp"
+        android:layout_width="100sp"
         android:layout_height="30sp"
             android:id="@+id/header21"
         android:text="day 21"
             android:layout_toRightOf="@+id/header20"/>
 
     <TextView
-        android:layout_width="50sp"
+        android:layout_width="100sp"
         android:layout_height="30sp"
             android:id="@+id/header22"
         android:text="day 22"
             android:layout_toRightOf="@+id/header21"/>
 
     <TextView
-        android:layout_width="50sp"
+        android:layout_width="100sp"
         android:layout_height="30sp"
             android:id="@+id/header23"
         android:text="day 23"
             android:layout_toRightOf="@+id/header22"/>
 
     <TextView
-        android:layout_width="50sp"
+        android:layout_width="100sp"
         android:layout_height="30sp"
             android:id="@+id/header24"
         android:text="day 24"
             android:layout_toRightOf="@+id/header23"/>
 
     <TextView
-        android:layout_width="50sp"
+        android:layout_width="100sp"
         android:layout_height="30sp"
             android:id="@+id/header25"
         android:text="day 25"
             android:layout_toRightOf="@+id/header24"/>
 
     <TextView
-        android:layout_width="50sp"
+        android:layout_width="100sp"
         android:layout_height="30sp"
             android:id="@+id/header26"
         android:text="day 26"
             android:layout_toRightOf="@+id/header25"/>
 
     <TextView
-        android:layout_width="50sp"
+        android:layout_width="100sp"
         android:layout_height="30sp"
             android:id="@+id/header27"
         android:text="day 27"
             android:layout_toRightOf="@+id/header26"/>
 
     <TextView
-        android:layout_width="50sp"
+        android:layout_width="100sp"
         android:layout_height="30sp"
             android:id="@+id/header28"
         android:text="day 28"
             android:layout_toRightOf="@+id/header27"/>
 
     <TextView
-        android:layout_width="50sp"
+        android:layout_width="100sp"
         android:layout_height="30sp"
             android:id="@+id/header29"
         android:text="day 29"
             android:layout_toRightOf="@+id/header28"/>
 
     <TextView
-        android:layout_width="50sp"
+        android:layout_width="100sp"
         android:layout_height="30sp"
             android:id="@+id/header30"
         android:text="day 30"
             android:layout_toRightOf="@+id/header29"/>
 
     <TextView
-        android:layout_width="50sp"
+        android:layout_width="100sp"
         android:layout_height="30sp"
             android:id="@+id/haeder31"
         android:text="day 31"

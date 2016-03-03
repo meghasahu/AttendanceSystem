@@ -62,6 +62,7 @@
         android:id="@+id/enterrollormonth"
         android:layout_centerHorizontal="true"
         android:inputType="number"
+        android:hint="enter rollno"
         android:layout_below="@+id/choose_process"
         android:visibility="invisible"/>
 
