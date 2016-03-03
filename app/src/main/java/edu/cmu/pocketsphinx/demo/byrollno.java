@@ -32,39 +32,59 @@ public class byrollno extends Activity implements View.OnClickListener {
     monthadapter ad2;
 
     String[] data = null;
-    static ArrayList<dmonth> arraylistmonth;
+    static ArrayList<dmonth> arraylistmonth=new ArrayList<>();
     Button b1;
 
     public void onCreate(Bundle b) {
         super.onCreate(b);
-        arraylistmonth = null;
-        //we need to call the onCreate() of the AppCompatDelegate
 
-        setContentView(R.layout.monthlistview);
         Intent intent = getIntent();
         data = intent.getStringArrayExtra("string");
-        rollviewsetter();
+        try {
+            rollviewsetter();
+        }
+        catch (DatabaseException e)
+        {
+
+        }
         Button b1 = (Button) findViewById(R.id.sending);
 
         b1.setOnClickListener(this);
 
     }
 
-    public void rollviewsetter() {
+    public void rollviewsetter()throws DatabaseException {
         ListView list = (ListView) findViewById(R.id.month_list);
 
         switch (data[0]) {
             case "prasad":
                 DatabaseHandlerPrasad pg = new DatabaseHandlerPrasad(getApplicationContext(), null, null, 1);
-                arraylistmonth = pg.getUsers(pg.Tablenamereturns(data[1], data[2], data[4]), data[3]);
-                ad2 = new monthadapter(this, arraylistmonth);
-                list.setAdapter(ad2);
+
+                String s=pg.Tablenamereturns(data[1],data[2],data[4]);
+                if(s.equals("no record found")) {
+                    Toast.makeText(this, "please choose proper option", Toast.LENGTH_SHORT).show();
+                    throw new DatabaseException(" ");
+                }
+                else {
+                    setContentView(R.layout.monthlistview);
+                    arraylistmonth = pg.getUsers(s, data[3]);
+                    ad2 = new monthadapter(this, arraylistmonth);
+                    list.setAdapter(ad2);
+                }
                 break;
             case "sudhir":
                 DatabaseHandlerSudhir su = new DatabaseHandlerSudhir(getApplicationContext(), null, null, 1);
-                arraylistmonth = su.getUsers(su.Tablenamereturns(data[1], data[2], data[4]), data[3]);
-                ad2 = new monthadapter(this, arraylistmonth);
-                list.setAdapter(ad2);
+                String s1=su.Tablenamereturns(data[1],data[2],data[4]);
+                if(s1.equals("no record found")) {
+                    Toast.makeText(this, "please choose proper option", Toast.LENGTH_SHORT).show();
+                    throw new DatabaseException(" ");
+                }
+                else {
+                    setContentView(R.layout.monthlistview);
+                    arraylistmonth = su.getUsers(s1, data[3]);
+                    ad2 = new monthadapter(this, arraylistmonth);
+                    list.setAdapter(ad2);
+                }
                 break;
         }
 
@@ -73,26 +93,9 @@ public class byrollno extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
 
-
-
-
-
-
-
-
-
-        setContentView(R.layout.popup);
+       setContentView(R.layout.popup);
         sendroll(this);
 
-    }
-
-    public void onBackPressed() {
-
-        super.onBackPressed();
-        ListView list = (ListView) findViewById(R.id.month_list);
-        list.setAdapter(null);
-
-        return;
     }
 
     public void sendroll(Context context) {
@@ -130,6 +133,11 @@ public class byrollno extends Activity implements View.OnClickListener {
         GenerateFile g=new GenerateFile(arraylistmonth,this);
         temp= g.saveDataAttendance();
         return temp;
+    }
+    public void onBackPressed() {
+        super.onBackPressed();
+        arraylistmonth.clear();
+
     }
 
 }

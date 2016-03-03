@@ -17,7 +17,6 @@ public class GenerateFile {
      ArrayList<defaultdetails> temp;
     static int random=0;
      ArrayList<dmonth> dmon;
-    File tempFile;
 
     GenerateFile(ArrayList<defaultdetails> temp)
     {

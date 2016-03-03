@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -726,7 +727,7 @@ public class DatabaseHandlerSudhir extends SQLiteOpenHelper {
             default:
                 return("no record found");
         }
-        return null;
+        return ("no record found");
 
 
 
@@ -737,33 +738,38 @@ public class DatabaseHandlerSudhir extends SQLiteOpenHelper {
     public ArrayList<defaultdetails>  defaulterFor1month (String tablename)
     {
         SQLiteDatabase db = getWritableDatabase();
+
         String [] columns ={"rollno","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"};
-        Cursor cursor = db.query (tablename,columns,null,null,null,null,null);
+        Cursor cursor = db.query(tablename, columns, null, null, null, null, null);
         Cursor cur2;
+        try {
+            while (cursor.moveToNext()) {
+                double c = 0.00, holiday = 0.00;
+                for (int i = 1; i <= 31; i++) {
+                    if (cursor.getString(i).equalsIgnoreCase("present"))
+                        c++;
 
-        while (cursor.moveToNext()) {
-            double c=0.00,holiday = 0.00;
-            for (int i = 1; i <= 31; i++) {
-                if (cursor.getString(i).equalsIgnoreCase("present"))
-                    c++;
 
+                    else {
+                        if (cursor.getString(i).equalsIgnoreCase(null))
+                            holiday++;
+                    }
+                }
+                double defaulterpercent = (c / (31 - holiday)) * 100;
+                if (defaulterpercent < 75) {
+                    String[] col = {"FirstName", "rollno", "Course"};
+                    cur2 = db.query(Table_name, col, "rollno =" + cursor.getString(cursor.getColumnIndex(roll_no)), null, null, null, null);
+                    cur2.moveToFirst();
+                    dd = new defaultdetails(cur2.getString(cur2.getColumnIndex(Firstname)) + "  ", cur2.getString(cur2.getColumnIndex(roll_no)) + "  ", cur2.getString(cur2.getColumnIndex(Course)) + " ", defaulterpercent);
 
-                else {
-                    if (cursor.getString(i).equalsIgnoreCase(null))
-                        holiday++;
                 }
             }
-            double defaulterpercent = (c / (31 - holiday)) * 100;
-            if (defaulterpercent < 75) {
-                String[] col = {"FirstName", "rollno", "Course"};
-                cur2 = db.query(Table_name, col,"rollno ="+cursor.getString(cursor.getColumnIndex(roll_no)),null, null, null, null);
-                cur2.moveToFirst();
-                dd = new defaultdetails(cur2.getString(cur2.getColumnIndex(Firstname)) + "  ", cur2.getString(cur2.getColumnIndex(roll_no)) + "  ", cur2.getString(cur2.getColumnIndex(Course)) + " ", defaulterpercent);
 
-            }
+            al1 = dd.getTemp();
+        } catch (NullPointerException e) {
+            Log.i("no", "Data Found");
         }
 
-        al1=dd.getTemp();
         return al1;
     }
 
@@ -771,6 +777,7 @@ public class DatabaseHandlerSudhir extends SQLiteOpenHelper {
 
     public ArrayList<emailStructure> getEmail(String[] rollno)
     {
+
         SQLiteDatabase db=getReadableDatabase();
         String[] col={"FirstName","rollno","Course","EmailId","PhoneNo"};
         int i=0;
@@ -779,6 +786,7 @@ public class DatabaseHandlerSudhir extends SQLiteOpenHelper {
         while(i < rollno.length) {
             cursor = db.query(Table_name, col, "rollno=" + rollno[i], null, null, null, null);
             cursor.moveToFirst();
+
             emailtemp = new emailStructure(cursor.getString(cursor.getColumnIndex(Firstname)),
                     cursor.getString(cursor.getColumnIndex(roll_no)),
                     cursor.getString(cursor.getColumnIndex(Course)),
@@ -792,69 +800,55 @@ public class DatabaseHandlerSudhir extends SQLiteOpenHelper {
         return e;
     }
 
-    public ArrayList<dmonth>  getUsers(String tablename , String roll) {
+
+    //month retrieval
+
+    public ArrayList<dmonth>  getUsers(String tablename , String roll){
+
+        ArrayList<dmonth> user = new ArrayList<>();
 
         Cursor cursor;
-        String[] temp=new String[32];
+        String[] temp = new String[32];
 
-        ArrayList<dmonth> user = new ArrayList<dmonth>();
-        SQLiteDatabase db =getWritableDatabase();
+        SQLiteDatabase db = getWritableDatabase();
 
-        String[] columns = {"rollno","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"};
-        if(roll==null)
-            cursor=db.query (tablename,columns,null,null,null,null,null);
+        String[] columns = {"rollno", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
+        if (roll == null)
+            cursor = db.query(tablename, columns, null, null, null, null, null);
         else
-            cursor=db.query(tablename,columns,"rollno="+roll,null,null ,null,null);
+            cursor = db.query(tablename, columns, "rollno=" + roll, null, null, null, null);
 
-        while(cursor.moveToNext())
-        {
-            for(int i=0;i<32;i++) {
+        while (cursor.moveToNext()) {
+            for (int i = 0; i < 32; i++) {
                 temp[i] = cursor.getString(i);
             }
-            m=new dmonth(temp);
-           /* m = new dmonth(cursor.getString(cursor.getColumnIndex(roll_no)), cursor.getString(1),
-                    cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5),
-                    cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9),
-                    cursor.getString(10), cursor.getString(11), cursor.getString(12), cursor.getString(13),
-                    cursor.getString(14), cursor.getString(15), cursor.getString(16), cursor.getString(17),
-                    cursor.getString(18), cursor.getString(19), cursor.getString(20), cursor.getString(21),
-                    cursor.getString(22), cursor.getString(23), cursor.getString(24), cursor.getString(25),
-                    cursor.getString(26), cursor.getString(27), cursor.getString(28),
-                    cursor.getString(29), cursor.getString(30),cursor.getString(31));*/
+            m = new dmonth(temp);
+
         }
 
-        user= m.getTemp();
+
+        user = m.getTemp();
         return user;
+
     }
 
-    public ArrayList<dmonth>  getUsersbymonth(String tablename) {
+    public ArrayList<dmonth>  getUsersbymonth(String tablename){
+        ArrayList<dmonth> user = new ArrayList<>();
 
         Cursor cursor;
-        String[] temp=new String[32];
+        String[] temp = new String[32];
 
-        ArrayList<dmonth> user = new ArrayList<dmonth>();
-        SQLiteDatabase db =getWritableDatabase();
+        SQLiteDatabase db = getWritableDatabase();
 
-        String[] columns = {"rollno","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"};
+        String[] columns = {"rollno", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
 
-        cursor=db.query(tablename,columns,null,null,null ,null,null);
+        cursor = db.query(tablename, columns, null, null, null, null, null);
 
-        while(cursor.moveToNext())
-        {
-            for(int i=0;i<32;i++) {
+        while (cursor.moveToNext()) {
+            for (int i = 0; i < 32; i++) {
                 temp[i] = cursor.getString(i);
             }
-            m=new dmonth(temp);
-
-          /* m= new dmonth(cursor.getString(cursor.getColumnIndex(roll_no)), cursor.getString(1),
-                    cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5),
-                    cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9),
-                    cursor.getString(10), cursor.getString(11), cursor.getString(12), cursor.getString(13),
-                    cursor.getString(14), cursor.getString(15), cursor.getString(16), cursor.getString(17),
-                    cursor.getString(18), cursor.getString(19), cursor.getString(20), cursor.getString(21),
-                    cursor.getString(22), cursor.getString(23), cursor.getString(24), cursor.getString(25),
-                    cursor.getString(26), cursor.getString(27), cursor.getString(28),
-                    cursor.getString(29), cursor.getString(30),cursor.getString(31));*/
+            m = new dmonth(temp);
 
         }
 
@@ -862,5 +856,4 @@ public class DatabaseHandlerSudhir extends SQLiteOpenHelper {
         user= m.getTemp();
         return user;
     }
-
 }

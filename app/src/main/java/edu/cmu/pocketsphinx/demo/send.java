@@ -154,9 +154,10 @@ public class send extends Activity {
 
         if (ch1.isChecked()) {
             int i = 0;
-            while (!e.isEmpty()) {
+            while (i<e.size()) {
                 SmsManager sms_manager = SmsManager.getDefault();
                 sms_manager.sendTextMessage(e.get(i).col_phone, null, "  ", sentPI, null);
+                i++;
             }
         } else
             Toast.makeText(getApplicationContext(), "please select option defaulters", Toast.LENGTH_SHORT).show();

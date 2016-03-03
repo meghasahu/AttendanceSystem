@@ -69,7 +69,7 @@ public class attendance extends Activity implements RecognitionListener {
         S.put("ONE", "1");S.put("TWO", "2");S.put("THREE", "3");S.put("FOUR", "4");S.put("FIVE", "5");S.put("SIX", "6");S.put("SEVEN", "7");S.put("EIGHT", "8");S.put("NINE", "9");S.put("TEN", "10");
         S.put("ELEVEN", "11");S.put("TWELVE", "12");S.put("THIRTEEN", "13");S.put("FOURTEEN", "14");S.put("FIFTEEN", "15");S.put("SIXTEEN", "16");S.put("SEVENTEEN", "17");S.put("EIGHTEEN", "18");S.put("NINETEEN", "19");S.put("TWENTY", "20");
         S.put("TWENTY-ONE", "21");S.put("TWENTY-TWO", "22");S.put("TWENTY-THREE", "23");S.put("TWENTY-FOUR", "24");S.put("TWENTY-FIVE", "25");S.put("TWENTY-SIX", "26");S.put("TWENTY-SEVEN", "27");S.put("TWENTY-EIGHT", "28");S.put("TWENTY-NINE", "29");S.put("THIRTY", "30");
-        S.put("THIRTY-ONE", "31");S.put("THIRTY-TWO", "32");S.put("T HIRTY-THREE", "33");S.put("THIRTY-FOUR", "34");S.put("THIRTY-FIVE", "35");S.put("THIRTY-SIX", "36");S.put("THIRTY-SEVEN", "37");S.put("THIRTY-EIGHT", "38");S.put("THIRTY-NINE", "39");S.put("FORTY", "40");
+        S.put("THIRTY-ONE", "31");S.put("THIRTY-TWO", "32");S.put("THIRTY-THREE", "33");S.put("THIRTY-FOUR", "34");S.put("THIRTY-FIVE", "35");S.put("THIRTY-SIX", "36");S.put("THIRTY-SEVEN", "37");S.put("THIRTY-EIGHT", "38");S.put("THIRTY-NINE", "39");S.put("FORTY", "40");
         S.put("FORTY-ONE", "41");S.put("FORTY-TWO", "42");S.put("FORTY-THREE", "43");S.put("FORTY-FOUR", "44");S.put("FORTY-FIVE", "45");S.put("FORTY-SIX", "46");S.put("FORTY-SEVEN", "47");S.put("FORTY-EIGHT", "48");S.put("FORTY-NINE", "49");S.put("FIFTY", "50");
         S.put("FIFTY-ONE", "51");S.put("FIFTY-TWO", "52");S.put("FIFTY-THREE", "53");S.put("FIFTY-FOUR", "54");S.put("FIFTY-FIVE", "55");S.put("FIFTY-SIX", "56");S.put("FIFTY-SEVEN", "57");S.put("FIFTY-EIGHT", "58");S.put("FIFTY-NINE", "59");S.put("SIXTY", "60");
         S.put("SIXTY-ONE", "61");S.put("SIXTY-TWO", "62");S.put("SIXTY-THREE", "63");S.put("SIXTY-FOUR", "64");S.put("SIXTY-FIVE", "65");S.put("SIXTY-SIX", "66");S.put("SIXTY-SEVEN", "67");S.put("SIXTY-EIGHT", "68");S.put("SIXTY-NINE", "69");S.put("SEVENTY", "70");
@@ -175,12 +175,21 @@ public class attendance extends Activity implements RecognitionListener {
                     }
                     List<String> num= Arrays.asList(n);
                     TreeSet<String> s = new TreeSet<>(num);
-                    for(String fin:s)
-                            Toast.makeText(getApplicationContext(),"number array "+fin,Toast.LENGTH_LONG).show();
+                    if(name_teacher.equalsIgnoreCase("PRASAD"))
+                    {
+                        DatabaseHandlerPrasad ps=new DatabaseHandlerPrasad(this,null,null,1);
+                        ps.update(get_course,get_semester,s,status_st);
+                    }
+                    else
+                    {
+                        DatabaseHandlerSudhir sp=new DatabaseHandlerSudhir(this,null,null,1);
+                        sp.update(get_course,get_semester,s,status_st);
+                    }
 
 
-                   // makeText(getApplicationContext(),"Name of Teacher"+name_teacher+"\n Course:"+get_course+"\n Semester"+get_semester,Toast.LENGTH_LONG).show();
-                   smaltext.setText("Name of Teacher"+name_teacher+"\n Course:"+get_course+"\n Semester"+get_semester+"Status of attendance is:"+status_st+"Number of student"+array[0]);
+
+                    // makeText(getApplicationContext(),"Name of Teacher"+name_teacher+"\n Course:"+get_course+"\n Semester"+get_semester,Toast.LENGTH_LONG).show();
+                    smaltext.setText("Name of Teacher"+name_teacher+"\n Course:"+get_course+"\n Semester"+get_semester+"Status of attendance is:"+status_st+"Number of student"+array[0]);
                     switchSearch(KWS_SE);
                     index=0;
                 }
@@ -267,13 +276,13 @@ public class attendance extends Activity implements RecognitionListener {
                 .setAcousticModel(new File(assetsDir, "en-us-ptm"))
                 .setDictionary(new File(assetsDir, "cmudict-en-us.dict"))
 
-                // To disable logging of raw audio comment out this call (takes a lot of space on the device)
+                        // To disable logging of raw audio comment out this call (takes a lot of space on the device)
                 .setRawLogDir(assetsDir)
 
-                // Threshold to tune for keyphrase to balance between false alarms and misses
+                        // Threshold to tune for keyphrase to balance between false alarms and misses
                 .setKeywordThreshold(1e-45f)
 
-                // Use context-independent phonetic search, context-dependent is too slow for mobile
+                        // Use context-independent phonetic search, context-dependent is too slow for mobile
                 .setBoolean("-allphone_ci", true)
 
                 .getRecognizer();

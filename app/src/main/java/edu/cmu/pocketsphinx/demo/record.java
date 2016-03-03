@@ -1,9 +1,7 @@
 package edu.cmu.pocketsphinx.demo;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,9 +10,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -31,8 +29,8 @@ public class record extends Activity implements View.OnClickListener {
     EditText et1;
     adapter ad;
     Calendar cal;
-    public static ArrayList<defaultdetails> al2;
-    ArrayList<emailStructure> e;
+    public static ArrayList<defaultdetails> al2=new ArrayList<>();
+    ArrayList<emailStructure> e=new ArrayList<>();
 
 
     protected void onCreate(Bundle b) {
@@ -95,11 +93,13 @@ public class record extends Activity implements View.OnClickListener {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0:
+                        et1.setEnabled(true);
                         smonth.setVisibility(View.INVISIBLE);
                         et1.setVisibility(View.INVISIBLE);
                         break;
                     case 1:
                         smonth.setVisibility(View.INVISIBLE);
+                        et1.setEnabled(true);
                         et1.setVisibility(View.VISIBLE);
                         et1.setHint("enter rollno");
                         break;
@@ -134,7 +134,12 @@ public class record extends Activity implements View.OnClickListener {
 
 
         if (s3.getSelectedItemId() == s3.getItemIdAtPosition(0)) {
-            listviewsetter();
+            try {
+                listviewsetter();
+            }catch (DatabaseException e)
+            {
+                Toast.makeText(this,"please enter valid details",Toast.LENGTH_SHORT);
+            }
             }
 
 
@@ -156,27 +161,44 @@ public class record extends Activity implements View.OnClickListener {
     }
 
     // listview setter for defaulter list
-    public void listviewsetter() {
+    public void listviewsetter() throws DatabaseException{
 
-        setContentView(R.layout.listviewmain);
 
         Button b2 = (Button)findViewById(R.id.send);
 
         if (teacher.equalsIgnoreCase("Prasad")) {
-
+           al2.clear();
             DatabaseHandlerPrasad pg = new DatabaseHandlerPrasad(this, null, null, 1);
-            al2 = pg.defaulterFor1month(pg.Tablenamereturns(course,sem,month));
-            ListView list = (ListView) findViewById(R.id.defaulter_list);
-            ad = new adapter(this, al2);
-            list.setAdapter(ad);
+            String s=new String();
+            s=pg.Tablenamereturns(course, sem, month);
+            if(s.equals("no record found")) {
+                Toast.makeText(this, "please choose proper option", Toast.LENGTH_SHORT).show();
+                throw new DatabaseException(" ");
+            }
+            else
+                setContentView(R.layout.listviewmain);
+                al2 = pg.defaulterFor1month(pg.Tablenamereturns(course, sem, month));
+                ListView list = (ListView) findViewById(R.id.defaulter_list);
+                ad = new adapter(this, al2);
+                list.setAdapter(ad);
+
         }
             else if (teacher.equalsIgnoreCase("sudhir")) {
-
+            al2.clear();
             DatabaseHandlerPrasad pg = new DatabaseHandlerPrasad(this, null, null, 1);
-            al2 = pg.defaulterFor1month(pg.Tablenamereturns(course,sem,month));
-            ListView list = (ListView) findViewById(R.id.defaulter_list);
-            ad = new adapter(this, al2);
-            list.setAdapter(ad);
+            String s=new String();
+            s=pg.Tablenamereturns(course,sem,month);
+            if(s.equals("no record found")) {
+                Toast.makeText(this, "please choose proper data", Toast.LENGTH_SHORT).show();
+                throw new DatabaseException(" ");
+            }
+            else {
+                setContentView(R.layout.listviewmain);
+                al2 = pg.defaulterFor1month(pg.Tablenamereturns(course, sem, month));
+                ListView list = (ListView) findViewById(R.id.defaulter_list);
+                ad = new adapter(this, al2);
+                list.setAdapter(ad);
+            }
         }
         b2.setOnClickListener(new View.OnClickListener() {
              @Override
@@ -215,13 +237,11 @@ public class record extends Activity implements View.OnClickListener {
         temp= g.saveDataDefaulters();
         return temp;
     }
-
-    public void onBackPressed() {
-
-        super.onBackPressed();
-        ListView list = (ListView) findViewById(R.id.defaulter_list);
-        list.setAdapter(null);
-        return;
-    }
+   public void onBackPressed()
+   {
+       super.onBackPressed();
+       al2.clear();
+       e.clear();
+   }
 
 }

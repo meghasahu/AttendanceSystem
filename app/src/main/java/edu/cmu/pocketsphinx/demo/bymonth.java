@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 
 public class bymonth extends Activity implements View.OnClickListener{
-    static ArrayList<dmonth> arraylistmonth;
+    static ArrayList<dmonth> arraylistmonth=new ArrayList<>();
     monthadapter ad2;
     String[] data;
     Button b1;
@@ -29,25 +29,45 @@ public class bymonth extends Activity implements View.OnClickListener{
         setContentView(R.layout.monthlistview);
         b1=(Button)findViewById(R.id.sending);
         data=intent.getStringArrayExtra("string");
-        monthviewsetter();
+        try {
+            monthviewsetter();
+        }
+        catch (DatabaseException e)
+        {
+            Toast.makeText(this,"please enter valid details",Toast.LENGTH_SHORT);
+        }
         b1.setOnClickListener(this);
     }
 
-    public void monthviewsetter()
+    public void monthviewsetter()throws DatabaseException
     {
         ListView list = (ListView) findViewById(R.id.month_list);
         switch (data[0]) {
             case "prasad":
                 DatabaseHandlerPrasad pg = new DatabaseHandlerPrasad(getApplicationContext(), null, null, 1);
-                arraylistmonth = pg.getUsersbymonth(pg.Tablenamereturns(data[1],data[2],data[3]));
-                ad2 = new monthadapter(this,arraylistmonth);
-                list.setAdapter(ad2);
+                String s1=pg.Tablenamereturns(data[1],data[2],data[3]);
+                if(s1.equals("no record found")) {
+                    Toast.makeText(this, "please choose proper option", Toast.LENGTH_SHORT).show();
+                    throw new DatabaseException(" ");
+                }
+                else {
+                    arraylistmonth = pg.getUsersbymonth(s1);
+                    ad2 = new monthadapter(this, arraylistmonth);
+                    list.setAdapter(ad2);
+                }
                 break;
             case "sudhir":
                 DatabaseHandlerSudhir su = new DatabaseHandlerSudhir(getApplicationContext(), null, null, 1);
-                arraylistmonth = su.getUsersbymonth(su.Tablenamereturns(data[1],data[2],data[3]));
-                ad2 = new monthadapter(this, arraylistmonth);
-                list.setAdapter(ad2);
+                String s=su.Tablenamereturns(data[1],data[2],data[3]);
+                if(s.equals("no record found")) {
+                    Toast.makeText(this, "please choose proper option", Toast.LENGTH_SHORT).show();
+                    throw new DatabaseException(" ");
+                }
+                else {
+                    arraylistmonth = su.getUsersbymonth(s);
+                    ad2 = new monthadapter(this, arraylistmonth);
+                    list.setAdapter(ad2);
+                }
                 break;
         }
     }
@@ -96,12 +116,8 @@ public class bymonth extends Activity implements View.OnClickListener{
         return temp;
     }
     public void onBackPressed() {
-
         super.onBackPressed();
-        ListView list = (ListView) findViewById(R.id.month_list);
-        list.setAdapter(null);
-
-        return;
+        arraylistmonth.clear();
     }
 
 
