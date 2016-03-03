@@ -795,19 +795,24 @@ public class DatabaseHandlerSudhir extends SQLiteOpenHelper {
     public ArrayList<dmonth>  getUsers(String tablename , String roll) {
 
         Cursor cursor;
+        String[] temp=new String[32];
 
-        ArrayList<dmonth> user = new ArrayList<>();
+        ArrayList<dmonth> user = new ArrayList<dmonth>();
         SQLiteDatabase db =getWritableDatabase();
 
         String[] columns = {"rollno","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"};
         if(roll==null)
             cursor=db.query (tablename,columns,null,null,null,null,null);
         else
-            cursor=db.query(tablename, columns,"rollno="+roll,null,null ,null,null);
+            cursor=db.query(tablename,columns,"rollno="+roll,null,null ,null,null);
 
         while(cursor.moveToNext())
         {
-            m = new dmonth(cursor.getString(cursor.getColumnIndex(roll_no)), cursor.getString(1),
+            for(int i=0;i<32;i++) {
+                temp[i] = cursor.getString(i);
+            }
+            m=new dmonth(temp);
+           /* m = new dmonth(cursor.getString(cursor.getColumnIndex(roll_no)), cursor.getString(1),
                     cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5),
                     cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9),
                     cursor.getString(10), cursor.getString(11), cursor.getString(12), cursor.getString(13),
@@ -815,7 +820,7 @@ public class DatabaseHandlerSudhir extends SQLiteOpenHelper {
                     cursor.getString(18), cursor.getString(19), cursor.getString(20), cursor.getString(21),
                     cursor.getString(22), cursor.getString(23), cursor.getString(24), cursor.getString(25),
                     cursor.getString(26), cursor.getString(27), cursor.getString(28),
-                    cursor.getString(29), cursor.getString(30),cursor.getString(31));
+                    cursor.getString(29), cursor.getString(30),cursor.getString(31));*/
         }
 
         user= m.getTemp();
@@ -825,6 +830,7 @@ public class DatabaseHandlerSudhir extends SQLiteOpenHelper {
     public ArrayList<dmonth>  getUsersbymonth(String tablename) {
 
         Cursor cursor;
+        String[] temp=new String[32];
 
         ArrayList<dmonth> user = new ArrayList<dmonth>();
         SQLiteDatabase db =getWritableDatabase();
@@ -833,10 +839,14 @@ public class DatabaseHandlerSudhir extends SQLiteOpenHelper {
 
         cursor=db.query(tablename,columns,null,null,null ,null,null);
 
-
-        while( cursor.moveToNext())
+        while(cursor.moveToNext())
         {
-            m = new dmonth(cursor.getString(cursor.getColumnIndex(roll_no)), cursor.getString(1),
+            for(int i=0;i<32;i++) {
+                temp[i] = cursor.getString(i);
+            }
+            m=new dmonth(temp);
+
+          /* m= new dmonth(cursor.getString(cursor.getColumnIndex(roll_no)), cursor.getString(1),
                     cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5),
                     cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9),
                     cursor.getString(10), cursor.getString(11), cursor.getString(12), cursor.getString(13),
@@ -844,12 +854,13 @@ public class DatabaseHandlerSudhir extends SQLiteOpenHelper {
                     cursor.getString(18), cursor.getString(19), cursor.getString(20), cursor.getString(21),
                     cursor.getString(22), cursor.getString(23), cursor.getString(24), cursor.getString(25),
                     cursor.getString(26), cursor.getString(27), cursor.getString(28),
-                    cursor.getString(29), cursor.getString(30),cursor.getString(31));
+                    cursor.getString(29), cursor.getString(30),cursor.getString(31));*/
+
         }
+
 
         user= m.getTemp();
         return user;
     }
-
 
 }

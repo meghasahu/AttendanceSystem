@@ -1,7 +1,11 @@
 package edu.cmu.pocketsphinx.demo;
 
 import android.app.Activity;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -108,18 +112,17 @@ public class send extends Activity {
 
             intent3.setType("text/plain");
             try {
-
                 chooser = Intent.createChooser(intent3, "send email");
                 startActivity(chooser);
                 Toast.makeText(getApplicationContext(), "sent", Toast.LENGTH_SHORT);
             } catch (android.content.ActivityNotFoundException e) {
                 Toast.makeText(getApplicationContext(), "No email client installed", Toast.LENGTH_SHORT).show();
             }
-        } else {
+        }
             if (ch2.isChecked()) {
                 record r = new record();
-                Uri uri = Uri.fromFile(r.getFile(this));
-                String id = et1.getText().toString();
+                Uri uri = Uri.fromFile(r.getFile());
+                String[] id = {et1.getText().toString()};
                 intent2.putExtra(Intent.EXTRA_TEXT, " hey  ");
                 intent2.putExtra(Intent.EXTRA_STREAM, uri);
                 intent2.putExtra(Intent.EXTRA_EMAIL, id);
@@ -135,18 +138,40 @@ public class send extends Activity {
 
             }
         }
-    }
 
     public void smsDefault() {
-        if (ch1.isChecked()) {
+        String sent="SMS_SENT";
+        PendingIntent sentPI=PendingIntent.getBroadcast(this,0,new Intent(sent),0);
+        registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+             if(getResultCode()== Activity.RESULT_OK)
+                 Toast.makeText(getApplicationContext(),"SMS sent",Toast.LENGTH_SHORT).show();
+                else
+                 Toast.makeText(getApplicationContext(),"SMS not sent",Toast.LENGTH_SHORT).show();
+            }
+        },new IntentFilter(sent));
 
+        if (ch1.isChecked()) {
             int i = 0;
             while (!e.isEmpty()) {
                 SmsManager sms_manager = SmsManager.getDefault();
-                sms_manager.sendTextMessage(e.get(i).col_phone, null, "  ", null, null);
+                sms_manager.sendTextMessage(e.get(i).col_phone, null, "  ", sentPI, null);
             }
         } else
             Toast.makeText(getApplicationContext(), "please select option defaulters", Toast.LENGTH_SHORT).show();
 
+    }
+
+    private void registerReceiver(BroadcastReceiver receiver) {
+
+    }
+
+    public void onBackPressed() {
+
+        super.onBackPressed();
+        Intent i=new Intent(send.this,record.class);
+        startActivity(i);
+        return;
     }
 }

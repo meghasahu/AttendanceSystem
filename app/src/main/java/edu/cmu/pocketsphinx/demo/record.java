@@ -101,13 +101,12 @@ public class record extends Activity implements View.OnClickListener {
                     case 1:
                         smonth.setVisibility(View.INVISIBLE);
                         et1.setVisibility(View.VISIBLE);
-                        et1.setText("enter rollno");
+                        et1.setHint("enter rollno");
                         break;
                     case 2:
                         et1.setVisibility(View.VISIBLE);
                         et1.setText("Select month ");
                         et1.setEnabled(false);
-                        et1.setTextColor(Color.BLUE);
                         smonth.setVisibility(View.VISIBLE);
                         break;
 
@@ -135,7 +134,6 @@ public class record extends Activity implements View.OnClickListener {
 
 
         if (s3.getSelectedItemId() == s3.getItemIdAtPosition(0)) {
-            al2=null;
             listviewsetter();
             }
 
@@ -165,17 +163,15 @@ public class record extends Activity implements View.OnClickListener {
         Button b2 = (Button)findViewById(R.id.send);
 
         if (teacher.equalsIgnoreCase("Prasad")) {
-            al2=null;
+
             DatabaseHandlerPrasad pg = new DatabaseHandlerPrasad(this, null, null, 1);
             al2 = pg.defaulterFor1month(pg.Tablenamereturns(course,sem,month));
-
             ListView list = (ListView) findViewById(R.id.defaulter_list);
             ad = new adapter(this, al2);
             list.setAdapter(ad);
         }
             else if (teacher.equalsIgnoreCase("sudhir")) {
 
-            al2=null;
             DatabaseHandlerPrasad pg = new DatabaseHandlerPrasad(this, null, null, 1);
             al2 = pg.defaulterFor1month(pg.Tablenamereturns(course,sem,month));
             ListView list = (ListView) findViewById(R.id.defaulter_list);
@@ -213,11 +209,19 @@ public class record extends Activity implements View.OnClickListener {
 
     }
 
-    public File getFile(Context context){
+    public File getFile(){
         File temp;
         GenerateFile g=new GenerateFile(al2);
-        temp= g.saveDataDefaulters(context);
+        temp= g.saveDataDefaulters();
         return temp;
+    }
+
+    public void onBackPressed() {
+
+        super.onBackPressed();
+        ListView list = (ListView) findViewById(R.id.defaulter_list);
+        list.setAdapter(null);
+        return;
     }
 
 }
