@@ -11,12 +11,12 @@
         android:layout_alignParentLeft="true" />
 
     <TextView
-        android:layout_width="50sp"
+        android:layout_width="100sp"
         android:layout_height="wrap_content"
         android:id="@+id/listrollno"
         android:layout_toRightOf="@+id/listname" />
     <TextView
-        android:layout_width="70sp"
+        android:layout_width="100sp"
         android:layout_height="wrap_content"
         android:id="@+id/listcourse"
         android:layout_toRightOf="@+id/listrollno"

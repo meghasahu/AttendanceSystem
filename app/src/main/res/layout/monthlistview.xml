@@ -1,219 +1,250 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:orientation="vertical" android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/name"
-            android:layout_alignParentLeft="true"
-            />
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/roll"
-            android:layout_toRightOf="@+id/name"/>
-
-
+            android:layout_width="100sp"
+            android:layout_height="30sp"
+            android:id="@+id/rolheader"
+        android:text="ROLL NO"
+           android:layout_alignParentLeft="true"/>
 
     //dates
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/_1"
+            android:layout_width="50sp"
+            android:layout_height="30sp"
+            android:id="@+id/header1"
+        android:text="day 1"
             android:layout_toRightOf="@+id/roll"/>
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/_2"
-            android:layout_toRightOf="@+id/_1"/>
+            android:layout_width="50sp"
+            android:layout_height="30sp"
+            android:id="@+id/header2"
+        android:text="day 2"
+            android:layout_toRightOf="@+id/header1"/>
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/_3"
-            android:layout_toRightOf="@+id/_2"/>
+        android:layout_width="50sp"
+        android:layout_height="30sp"
+            android:id="@+id/header3"
+        android:text="day 3"
+            android:layout_toRightOf="@+id/header2"/>
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/_4"
-            android:layout_toRightOf="@+id/_3"/>
+        android:layout_width="50sp"
+        android:layout_height="30sp"
+            android:id="@+id/header4"
+        android:text="day 4"
+            android:layout_toRightOf="@+id/header3"/>
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/_5"
-            android:layout_toRightOf="@+id/_4"/>
+        android:layout_width="50sp"
+        android:layout_height="30sp"
+            android:id="@+id/header5"
+        android:text="day 5"
+            android:layout_toRightOf="@+id/header4"/>
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/_6"
-            android:layout_toRightOf="@+id/_5"/>
+        android:layout_width="50sp"
+        android:layout_height="30sp"
+            android:id="@+id/header6"
+        android:text="day 6"
+            android:layout_toRightOf="@+id/header5"/>
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/_7"
-            android:layout_toRightOf="@+id/_6"/>
+        android:layout_width="50sp"
+        android:layout_height="30sp"
+            android:id="@+id/header7"
+        android:text="day 7"
+            android:layout_toRightOf="@+id/header6"/>
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/_8"
-            android:layout_toRightOf="@+id/_7"/>
+        android:layout_width="50sp"
+        android:layout_height="30sp"
+            android:id="@+id/header8"
+        android:text="day 8"
+            android:layout_toRightOf="@+id/header7"/>
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/_9"
-            android:layout_toRightOf="@+id/_8"/>
+        android:layout_width="50sp"
+        android:layout_height="30sp"
+            android:id="@+id/header9"
+        android:text="day 9"
+            android:layout_toRightOf="@+id/header8"/>
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/_10"
-            android:layout_toRightOf="@+id/_9"/>
+        android:layout_width="50sp"
+        android:layout_height="30sp"
+            android:id="@+id/header10"
+        android:text="day 10"
+            android:layout_toRightOf="@+id/header9"/>
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/_11"
-            android:layout_toRightOf="@+id/_10"/>
+        android:layout_width="50sp"
+        android:layout_height="30sp"
+            android:id="@+id/header11"
+        android:text="day 11"
+            android:layout_toRightOf="@+id/header10"/>
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/_12"
-            android:layout_toRightOf="@+id/_11"/>
+        android:layout_width="50sp"
+        android:layout_height="30sp"
+            android:id="@+id/header12"
+        android:text="day 12"
+            android:layout_toRightOf="@+id/header11"/>
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/_13"
-            android:layout_toRightOf="@+id/_12"/>
+        android:layout_width="50sp"
+        android:layout_height="30sp"
+            android:id="@+id/header13"
+        android:text="day 13"
+            android:layout_toRightOf="@+id/header12"/>
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/_14"
-            android:layout_toRightOf="@+id/_13"/>
+        android:layout_width="50sp"
+        android:layout_height="30sp"
+            android:id="@+id/header14"
+        android:text="day 14"
+            android:layout_toRightOf="@+id/header13"/>
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/_15"
-            android:layout_toRightOf="@+id/_14"/>
+        android:layout_width="50sp"
+        android:layout_height="30sp"
+            android:id="@+id/header15"
+        android:text="day 15"
+            android:layout_toRightOf="@+id/header14"/>
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/_16"
-            android:layout_toRightOf="@+id/_15"/>
+        android:layout_width="50sp"
+        android:layout_height="30sp"
+            android:id="@+id/header16"
+        android:text="day 16"
+            android:layout_toRightOf="@+id/header15"/>
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/_17"
-            android:layout_toRightOf="@+id/_16"/>
+        android:layout_width="50sp"
+        android:layout_height="30sp"
+            android:id="@+id/header17"
+        android:text="day 17"
+            android:layout_toRightOf="@+id/header16"/>
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/_18"
-            android:layout_toRightOf="@+id/_17"/>
+        android:layout_width="50sp"
+        android:layout_height="30sp"
+            android:id="@+id/header18"
+        android:text="day 18"
+            android:layout_toRightOf="@+id/header17"/>
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/_19"
-            android:layout_toRightOf="@+id/_18"/>
+        android:layout_width="50sp"
+        android:layout_height="30sp"
+            android:id="@+id/header19"
+        android:text="day 20"
+            android:layout_toRightOf="@+id/header18"/>
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/_20"
-            android:layout_toRightOf="@+id/_19"/>
+        android:layout_width="50sp"
+        android:layout_height="30sp"
+            android:id="@+id/header20"
+        android:text="day 20"
+            android:layout_toRightOf="@+id/header19"/>
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/_21"
-            android:layout_toRightOf="@+id/_20"/>
+        android:layout_width="50sp"
+        android:layout_height="30sp"
+            android:id="@+id/header21"
+        android:text="day 21"
+            android:layout_toRightOf="@+id/header20"/>
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/_22"
-            android:layout_toRightOf="@+id/_21"/>
+        android:layout_width="50sp"
+        android:layout_height="30sp"
+            android:id="@+id/header22"
+        android:text="day 22"
+            android:layout_toRightOf="@+id/header21"/>
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/_23"
-            android:layout_toRightOf="@+id/_22"/>
+        android:layout_width="50sp"
+        android:layout_height="30sp"
+            android:id="@+id/header23"
+        android:text="day 23"
+            android:layout_toRightOf="@+id/header22"/>
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/_24"
-            android:layout_toRightOf="@+id/_23"/>
+        android:layout_width="50sp"
+        android:layout_height="30sp"
+            android:id="@+id/header24"
+        android:text="day 24"
+            android:layout_toRightOf="@+id/header23"/>
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/_25"
-            android:layout_toRightOf="@+id/_24"/>
+        android:layout_width="50sp"
+        android:layout_height="30sp"
+            android:id="@+id/header25"
+        android:text="day 25"
+            android:layout_toRightOf="@+id/header24"/>
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/_26"
-            android:layout_toRightOf="@+id/_25"/>
+        android:layout_width="50sp"
+        android:layout_height="30sp"
+            android:id="@+id/header26"
+        android:text="day 26"
+            android:layout_toRightOf="@+id/header25"/>
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/_27"
-            android:layout_toRightOf="@+id/_26"/>
+        android:layout_width="50sp"
+        android:layout_height="30sp"
+            android:id="@+id/header27"
+        android:text="day 27"
+            android:layout_toRightOf="@+id/header26"/>
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/_28"
-            android:layout_toRightOf="@+id/_27"/>
+        android:layout_width="50sp"
+        android:layout_height="30sp"
+            android:id="@+id/header28"
+        android:text="day 28"
+            android:layout_toRightOf="@+id/header27"/>
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/_29"
-            android:layout_toRightOf="@+id/_28"/>
+        android:layout_width="50sp"
+        android:layout_height="30sp"
+            android:id="@+id/header29"
+        android:text="day 29"
+            android:layout_toRightOf="@+id/header28"/>
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/_30"
-            android:layout_toRightOf="@+id/_29"/>
+        android:layout_width="50sp"
+        android:layout_height="30sp"
+            android:id="@+id/header30"
+        android:text="day 30"
+            android:layout_toRightOf="@+id/header29"/>
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/_31"
-            android:layout_toRightOf="@+id/_30"
+        android:layout_width="50sp"
+        android:layout_height="30sp"
+            android:id="@+id/haeder31"
+        android:text="day 31"
+            android:layout_toRightOf="@+id/header30"
             android:layout_alignParentRight="true"/>
     <ListView
             android:id="@+id/month_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textview1">
+            android:layout_below="@+id/rolheader">
     </ListView>
-
-
-
-
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sending"
+        android:text="send"
+        android:layout_below="@+id/month_list"/>
 
 </RelativeLayout>
+</HorizontalScrollView>

@@ -13,7 +13,7 @@
         android:id="@+id/text1" />
 
     <Spinner
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:spinnerMode="dropdown"
         android:id="@+id/teachername"
@@ -25,7 +25,7 @@
 
 
     <Spinner
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:spinnerMode="dropdown"
         android:id="@+id/coursedisplay"
@@ -37,7 +37,7 @@
     </Spinner>
 
     <Spinner
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:spinnerMode="dropdown"
         android:id="@+id/sem_display"
@@ -47,7 +47,7 @@
 
     </Spinner>
     <Spinner
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:spinnerMode="dropdown"
         android:id="@+id/choose_process"
@@ -57,7 +57,7 @@
 
     </Spinner>
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/enterrollormonth"
         android:layout_centerHorizontal="true"
@@ -66,7 +66,7 @@
         android:visibility="invisible"/>
 
     <Spinner
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/monthfortable"
         android:layout_centerHorizontal="true"
