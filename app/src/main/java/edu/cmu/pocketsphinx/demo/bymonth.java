@@ -1,10 +1,13 @@
 package edu.cmu.pocketsphinx.demo;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -80,23 +83,41 @@ public class bymonth extends Activity implements View.OnClickListener{
     @Override
     public void onClick(View v) {
 
-        setContentView(R.layout.popup);
-        Button b1 = (Button)findViewById(R.id.rollsend);
-        b1.setOnClickListener(new View.OnClickListener() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Enter emailid");
+
+        final EditText input = new EditText(this);
+// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS);
+        builder.setView(input);
+
+// Set up the buttons
+        builder.setPositiveButton("send", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                sendroll(getApplicationContext());
+            public void onClick(DialogInterface dialog, int which) {
+                String s=input.getText().toString();
+                String[] temp={s};
+                sendroll(getApplicationContext(),temp);
             }
         });
+        builder.setNegativeButton("Back", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+
     }
 
 
-    public void sendroll(Context context) {
+    public void sendroll(Context context,String[] temp) {
 
-                EditText et1 = (EditText) findViewById(R.id.receiverid);
+
                 Intent intent2 = null, chooser = null;
                 Uri uri = Uri.fromFile(getFile());
-                String[] id = {et1.getText().toString()};
+                String[] id = temp;
 
                 intent2 = new Intent(Intent.ACTION_SEND);
                 intent2.setData(Uri.parse("mailto:"));
