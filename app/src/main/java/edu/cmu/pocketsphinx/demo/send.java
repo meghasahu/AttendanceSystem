@@ -174,8 +174,6 @@ public class send extends Activity {
 
         super.onBackPressed();
         dialog.dismiss();
-        Intent i = new Intent(send.this, record.class);
-        startActivity(i);
         return;
     }
 }
