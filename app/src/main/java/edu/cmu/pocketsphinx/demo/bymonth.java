@@ -5,10 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import java.io.File;
@@ -23,34 +26,32 @@ public class bymonth extends Activity implements View.OnClickListener{
 
     public void onCreate(Bundle bundle)
     {
-        b1=(Button)findViewById(R.id.sending);
         super.onCreate(bundle);
         Intent intent=getIntent();
-        setContentView(R.layout.monthlistview);
-        b1=(Button)findViewById(R.id.sending);
         data=intent.getStringArrayExtra("string");
         try {
             monthviewsetter();
         }
         catch (DatabaseException e)
         {
-            Toast.makeText(this,"please enter valid details",Toast.LENGTH_SHORT);
         }
-        b1.setOnClickListener(this);
     }
 
     public void monthviewsetter()throws DatabaseException
     {
-        ListView list = (ListView) findViewById(R.id.month_list);
         switch (data[0]) {
             case "prasad":
                 DatabaseHandlerPrasad pg = new DatabaseHandlerPrasad(getApplicationContext(), null, null, 1);
                 String s1=pg.Tablenamereturns(data[1],data[2],data[3]);
                 if(s1.equals("no record found")) {
-                    Toast.makeText(this, "please choose proper option", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "please enter valid details", Toast.LENGTH_SHORT).show();
                     throw new DatabaseException(" ");
                 }
                 else {
+                    setContentView(R.layout.monthlistview);
+                    b1=(Button)findViewById(R.id.sending);
+                    b1.setOnClickListener(this);
+                    ListView list = (ListView) findViewById(R.id.month_list);
                     arraylistmonth = pg.getUsersbymonth(s1);
                     ad2 = new monthadapter(this, arraylistmonth);
                     list.setAdapter(ad2);
@@ -60,10 +61,14 @@ public class bymonth extends Activity implements View.OnClickListener{
                 DatabaseHandlerSudhir su = new DatabaseHandlerSudhir(getApplicationContext(), null, null, 1);
                 String s=su.Tablenamereturns(data[1],data[2],data[3]);
                 if(s.equals("no record found")) {
-                    Toast.makeText(this, "please choose proper option", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "please enter valid details", Toast.LENGTH_SHORT).show();
                     throw new DatabaseException(" ");
                 }
                 else {
+                    setContentView(R.layout.monthlistview);
+                    b1=(Button)findViewById(R.id.sending);
+                    b1.setOnClickListener(this);
+                    ListView list = (ListView) findViewById(R.id.month_list);
                     arraylistmonth = su.getUsersbymonth(s);
                     ad2 = new monthadapter(this, arraylistmonth);
                     list.setAdapter(ad2);
@@ -74,17 +79,19 @@ public class bymonth extends Activity implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
+
         setContentView(R.layout.popup);
-        sendroll(this);
+        Button b1 = (Button)findViewById(R.id.rollsend);
+        b1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendroll(getApplicationContext());
+            }
+        });
     }
 
 
     public void sendroll(Context context) {
-
-        Button b1 = (Button) findViewById(R.id.rollsend);
-        b1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
                 EditText et1 = (EditText) findViewById(R.id.receiverid);
                 Intent intent2 = null, chooser = null;
@@ -107,8 +114,6 @@ public class bymonth extends Activity implements View.OnClickListener{
                 }
 
             }
-        });
-    }
     public File getFile(){
         File temp;
         GenerateFile g=new GenerateFile(arraylistmonth,this);

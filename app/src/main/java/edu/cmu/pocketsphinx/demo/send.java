@@ -60,7 +60,7 @@ public class send extends Activity {
                 if(ch2.isChecked())
                 {
                     et1.setVisibility(View.VISIBLE);
-                    et1.setText("enter emailId");
+                    et1.setHint("enter emailId");
                 }
                 else
                     et1.setVisibility(View.INVISIBLE);

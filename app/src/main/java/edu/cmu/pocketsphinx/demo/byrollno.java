@@ -45,28 +45,26 @@ public class byrollno extends Activity implements View.OnClickListener {
         }
         catch (DatabaseException e)
         {
-
+            Toast.makeText(this, "please choose proper option", Toast.LENGTH_SHORT).show();
         }
-        Button b1 = (Button) findViewById(R.id.sending);
-
-        b1.setOnClickListener(this);
 
     }
 
     public void rollviewsetter()throws DatabaseException {
-        ListView list = (ListView) findViewById(R.id.month_list);
 
         switch (data[0]) {
             case "prasad":
                 DatabaseHandlerPrasad pg = new DatabaseHandlerPrasad(getApplicationContext(), null, null, 1);
 
                 String s=pg.Tablenamereturns(data[1],data[2],data[4]);
-                if(s.equals("no record found")) {
-                    Toast.makeText(this, "please choose proper option", Toast.LENGTH_SHORT).show();
+                if(s.equals("no record found"))
                     throw new DatabaseException(" ");
-                }
                 else {
                     setContentView(R.layout.monthlistview);
+                    Button b1 = (Button) findViewById(R.id.sending);
+                    b1.setOnClickListener(this);
+
+                    ListView list = (ListView) findViewById(R.id.month_list);
                     arraylistmonth = pg.getUsers(s, data[3]);
                     ad2 = new monthadapter(this, arraylistmonth);
                     list.setAdapter(ad2);
@@ -75,12 +73,13 @@ public class byrollno extends Activity implements View.OnClickListener {
             case "sudhir":
                 DatabaseHandlerSudhir su = new DatabaseHandlerSudhir(getApplicationContext(), null, null, 1);
                 String s1=su.Tablenamereturns(data[1],data[2],data[4]);
-                if(s1.equals("no record found")) {
-                    Toast.makeText(this, "please choose proper option", Toast.LENGTH_SHORT).show();
+                if(s1.equals("no record found"))
                     throw new DatabaseException(" ");
-                }
                 else {
                     setContentView(R.layout.monthlistview);
+                    Button b1 = (Button) findViewById(R.id.sending);
+                    b1.setOnClickListener(this);
+                    ListView list = (ListView) findViewById(R.id.month_list);
                     arraylistmonth = su.getUsers(s1, data[3]);
                     ad2 = new monthadapter(this, arraylistmonth);
                     list.setAdapter(ad2);
@@ -137,7 +136,6 @@ public class byrollno extends Activity implements View.OnClickListener {
     public void onBackPressed() {
         super.onBackPressed();
         arraylistmonth.clear();
-
     }
 
 }

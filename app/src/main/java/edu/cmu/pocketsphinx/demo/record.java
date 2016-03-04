@@ -93,7 +93,6 @@ public class record extends Activity implements View.OnClickListener {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0:
-                        et1.setEnabled(true);
                         smonth.setVisibility(View.INVISIBLE);
                         et1.setVisibility(View.INVISIBLE);
                         break;
@@ -105,11 +104,10 @@ public class record extends Activity implements View.OnClickListener {
                         break;
                     case 2:
                         et1.setVisibility(View.VISIBLE);
-                        et1.setText("Select month ");
+                        et1.setHint("Select month ");
                         et1.setEnabled(false);
                         smonth.setVisibility(View.VISIBLE);
                         break;
-
                 }
 
             }
@@ -138,7 +136,7 @@ public class record extends Activity implements View.OnClickListener {
                 listviewsetter();
             }catch (DatabaseException e)
             {
-                Toast.makeText(this,"please enter valid details",Toast.LENGTH_SHORT);
+                Toast.makeText(this,"please enter valid details",Toast.LENGTH_SHORT).show();
             }
             }
 
@@ -163,43 +161,37 @@ public class record extends Activity implements View.OnClickListener {
     // listview setter for defaulter list
     public void listviewsetter() throws DatabaseException{
 
-
-        Button b2 = (Button)findViewById(R.id.send);
-
         if (teacher.equalsIgnoreCase("Prasad")) {
-           al2.clear();
             DatabaseHandlerPrasad pg = new DatabaseHandlerPrasad(this, null, null, 1);
             String s=new String();
             s=pg.Tablenamereturns(course, sem, month);
-            if(s.equals("no record found")) {
-                Toast.makeText(this, "please choose proper option", Toast.LENGTH_SHORT).show();
+            if(s.equals("no record found"))
                 throw new DatabaseException(" ");
-            }
-            else
-                setContentView(R.layout.listviewmain);
-                al2 = pg.defaulterFor1month(pg.Tablenamereturns(course, sem, month));
-                ListView list = (ListView) findViewById(R.id.defaulter_list);
-                ad = new adapter(this, al2);
-                list.setAdapter(ad);
-
-        }
-            else if (teacher.equalsIgnoreCase("sudhir")) {
-            al2.clear();
-            DatabaseHandlerPrasad pg = new DatabaseHandlerPrasad(this, null, null, 1);
-            String s=new String();
-            s=pg.Tablenamereturns(course,sem,month);
-            if(s.equals("no record found")) {
-                Toast.makeText(this, "please choose proper data", Toast.LENGTH_SHORT).show();
-                throw new DatabaseException(" ");
-            }
-            else {
+            else{
                 setContentView(R.layout.listviewmain);
                 al2 = pg.defaulterFor1month(pg.Tablenamereturns(course, sem, month));
                 ListView list = (ListView) findViewById(R.id.defaulter_list);
                 ad = new adapter(this, al2);
                 list.setAdapter(ad);
             }
+            }
+            else{
+            if(teacher.equalsIgnoreCase("sudhir")) {
+                DatabaseHandlerPrasad pg = new DatabaseHandlerPrasad(this, null, null, 1);
+                String s=new String();
+                s=pg.Tablenamereturns(course,sem,month);
+                if(s.equals("no record found"))
+                    throw new DatabaseException(" ");
+                else {
+                    setContentView(R.layout.listviewmain);
+                    al2 = pg.defaulterFor1month(pg.Tablenamereturns(course, sem, month));
+                    ListView list = (ListView) findViewById(R.id.defaulter_list);
+                    ad = new adapter(this, al2);
+                    list.setAdapter(ad);
+                }
+            }
         }
+        Button b2 =(Button)findViewById(R.id.send);
         b2.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
