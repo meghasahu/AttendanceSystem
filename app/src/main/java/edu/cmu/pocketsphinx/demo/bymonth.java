@@ -48,7 +48,7 @@ public class bymonth extends Activity implements View.OnClickListener{
                 String s1=pg.Tablenamereturns(data[1],data[2],data[3]);
                 if(s1.equals("no record found")) {
                     Toast.makeText(this, "please enter valid details", Toast.LENGTH_SHORT).show();
-                    throw new DatabaseException(" ");
+                    throw new DatabaseException();
                 }
                 else {
                     setContentView(R.layout.monthlistview);
@@ -65,7 +65,7 @@ public class bymonth extends Activity implements View.OnClickListener{
                 String s=su.Tablenamereturns(data[1],data[2],data[3]);
                 if(s.equals("no record found")) {
                     Toast.makeText(this, "please enter valid details", Toast.LENGTH_SHORT).show();
-                    throw new DatabaseException(" ");
+                    throw new DatabaseException();
                 }
                 else {
                     setContentView(R.layout.monthlistview);

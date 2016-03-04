@@ -19,18 +19,18 @@ import java.util.Calendar;
 
 public class record extends Activity implements View.OnClickListener {
 
-    Spinner s1, s2, s3, s4,smonth;
+    Spinner s1, s2, s3, s4, smonth;
     Button b1;
     String course;
     String sem;
     String teacher;
     String rollno;
-    String month,mon;
+    String month, mon;
     EditText et1;
     adapter ad;
     Calendar cal;
-    public static ArrayList<defaultdetails> al2=new ArrayList<>();
-    ArrayList<emailStructure> e=new ArrayList<>();
+    public static ArrayList<defaultdetails> al2 = new ArrayList<>();
+    ArrayList<emailStructure> e = new ArrayList<>();
 
 
     protected void onCreate(Bundle b) {
@@ -43,7 +43,7 @@ public class record extends Activity implements View.OnClickListener {
         s3 = (Spinner) findViewById(R.id.choose_process);
         s4 = (Spinner) findViewById(R.id.teachername);
         et1 = (EditText) findViewById(R.id.enterrollormonth);
-        smonth=(Spinner)findViewById(R.id.monthfortable);
+        smonth = (Spinner) findViewById(R.id.monthfortable);
 
 
         b1 = (Button) findViewById(R.id.displaydata);
@@ -70,24 +70,19 @@ public class record extends Activity implements View.OnClickListener {
         s3.setAdapter(ad3);
 
         //adding data in spinner4
-        String[] arr4 = {"prasad","sudhir"};
+        String[] arr4 = {"prasad", "sudhir"};
         ArrayAdapter<String> ad4 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, arr4);
         ad4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         s4.setAdapter(ad4);
 
-        String[] arr5 = {"1", "2","3","6","7","8","9","10","12"};
-        ArrayAdapter<String> ad5 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item,arr5);
+        String[] arr5 = {"1", "2", "3", "6", "7", "8", "9", "10", "12"};
+        ArrayAdapter<String> ad5 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, arr5);
         ad5.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         smonth.setAdapter(ad5);
 
-
         b1.setOnClickListener(this);
 
-
-
         //deciding process
-
-
         s3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -119,44 +114,43 @@ public class record extends Activity implements View.OnClickListener {
         });
     }
 
+            @Override
+            public void onClick (View v) {
+                course = s1.getSelectedItem().toString();
+                sem = s2.getSelectedItem().toString();
+                teacher = s4.getSelectedItem().toString();
+                mon = smonth.getSelectedItem().toString();
+                rollno=et1.getText().toString();
+                    if (s3.getSelectedItemId() == s3.getItemIdAtPosition(0)) {
+                        try {
+                            listviewsetter();
+                        } catch (DatabaseException e) {
+                            Toast.makeText(this, "please enter valid details", Toast.LENGTH_SHORT).show();
+                        }
+                    } else if (s3.getSelectedItemId() == s3.getItemIdAtPosition(1)) {
+                        try {
+                            if (et1.getText().length() == 0) {
+                                throw new DatabaseException();
+                            } else {
+                                Intent i = new Intent(record.this, byrollno.class);
+                                String[] array = {teacher, course, sem, rollno, month};
+                                i.putExtra("string", array);
+                                startActivity(i);
+                            }
+                        }catch(DatabaseException e) {
+                            Toast.makeText(this,"please enter rollno",Toast.LENGTH_SHORT).show();
+                        }
+
+                    } else if (s3.getSelectedItemId() == s3.getItemIdAtPosition(2)) {
+                        Intent i = new Intent(record.this, bymonth.class);
+                        String[] array = {teacher, course, sem, month};
+                        i.putExtra("string", array);
+                        startActivity(i);
+
+                    }
+                }
 
 
-    @Override
-    public void onClick(View v) {
-
-        course = s1.getSelectedItem().toString();
-        sem = s2.getSelectedItem().toString();
-        teacher = s4.getSelectedItem().toString();
-        mon=smonth.getSelectedItem().toString();
-        rollno=et1.getText().toString();
-
-
-        if (s3.getSelectedItemId() == s3.getItemIdAtPosition(0)) {
-            try {
-                listviewsetter();
-            }catch (DatabaseException e)
-            {
-                Toast.makeText(this,"please enter valid details",Toast.LENGTH_SHORT).show();
-            }
-            }
-
-
-        else
-        if (s3.getSelectedItemId() == s3.getItemIdAtPosition(1)) {
-            Intent i=new Intent(record.this,byrollno.class);
-            String[] array={teacher,course,sem,rollno,month};
-            i.putExtra("string",array);
-            startActivity(i);
-
-        } else
-        if (s3.getSelectedItemId() == s3.getItemIdAtPosition(2)) {
-            Intent i=new Intent(record.this,bymonth.class);
-            String[] array={teacher,course,sem,month};
-            i.putExtra("string",array);
-            startActivity(i);
-
-        }
-    }
 
     // listview setter for defaulter list
     public void listviewsetter() throws DatabaseException{
@@ -166,7 +160,7 @@ public class record extends Activity implements View.OnClickListener {
             String s=new String();
             s=pg.Tablenamereturns(course, sem, month);
             if(s.equals("no record found"))
-                throw new DatabaseException(" ");
+                throw new DatabaseException();
             else{
                 setContentView(R.layout.listviewmain);
                 al2 = pg.defaulterFor1month(pg.Tablenamereturns(course, sem, month));
@@ -181,7 +175,7 @@ public class record extends Activity implements View.OnClickListener {
                 String s=new String();
                 s=pg.Tablenamereturns(course,sem,month);
                 if(s.equals("no record found"))
-                    throw new DatabaseException(" ");
+                    throw new DatabaseException();
                 else {
                     setContentView(R.layout.listviewmain);
                     al2 = pg.defaulterFor1month(pg.Tablenamereturns(course, sem, month));

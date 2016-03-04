@@ -355,8 +355,6 @@ public class DatabaseHandlerPrasad extends SQLiteOpenHelper {
         tablename = Tablenamereturns(course, semester, month);
        // Toast.makeText(1, "Table Name" + tablename, Toast.LENGTH_LONG).show();
        // Toast.makeText(l, "date" + day, Toast.LENGTH_LONG).show();
-        ContentValues vs = new ContentValues();
-        vs.put(day, "present");
         SQLiteDatabase db = getWritableDatabase();
         TreeSet<String> S = new TreeSet<>(Student_numbers);
         String[] numbers = S.toArray(new String[S.size()]);
@@ -755,7 +753,6 @@ public class DatabaseHandlerPrasad extends SQLiteOpenHelper {
                     for (int i = 1; i <= 31; i++) {
                         if (cursor.getString(i).equalsIgnoreCase("present"))
                             c++;
-
 
                         else {
                             if (cursor.getString(i).equalsIgnoreCase(null))

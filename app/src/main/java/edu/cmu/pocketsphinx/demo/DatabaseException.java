@@ -8,9 +8,9 @@ import android.widget.Toast;
  */
 public class DatabaseException extends Exception{
 
-    DatabaseException(String s)
+    DatabaseException()
     {
-        super(s);
+        super();
       //  Toast.makeText(this,"",Toast.LENGTH_SHORT);
     }
 }

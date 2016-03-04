@@ -25,38 +25,6 @@ import java.util.ArrayList;
 
     }
 
-    public String getDname() {
-        return dname;
-    }
-
-    public void setDname(String dname) {
-        this.dname = dname;
-    }
-
-    public String getDrollno() {
-        return drollno;
-    }
-
-    public void setDrollno(String drollno) {
-        this.drollno = drollno;
-    }
-
-    public String getDcourse() {
-        return dcourse;
-    }
-
-    public void setDcourse(String dcourse) {
-        this.dcourse = dcourse;
-    }
-
-    public double getDattendance() {
-        return dattendance;
-    }
-
-    public void setDattendance(double dattendance) {
-        this.dattendance = dattendance;
-    }
-
     public ArrayList<defaultdetails> getTemp() {
         return temp;
     }

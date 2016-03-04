@@ -1,15 +1,19 @@
 package edu.cmu.pocketsphinx.demo;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.telephony.SmsManager;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -30,13 +34,17 @@ public class send extends Activity {
     CheckBox ch1, ch2;
     ArrayList<emailStructure> e;
     Intent intent;
-    String[] temp={" "};
+    String[] temp = {" "};
+    Dialog dialog;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.send);
+
+        dialog = new Dialog(this);
+        dialog.setContentView(R.layout.send);
+
         int i=0;
 
         intent = getIntent();
@@ -45,14 +53,30 @@ public class send extends Activity {
         while(temp[i]!=null) {
             temp[i] = intent.getStringExtra(("tempdata2attend"));
         }
-        b1 = (Button) findViewById(R.id.sendmail);
-        b2 = (Button) findViewById(R.id.sms);
 
-        et1 = (EditText) findViewById(R.id.email);
+        b1= (Button) dialog.findViewById(R.id.sendmail);
+        b1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    sendDefault();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
 
-        ch1 = (CheckBox) findViewById(R.id.checkbox1);
-        ch2 = (CheckBox) findViewById(R.id.checkother);
+            }
+        });
+        b2=(Button) dialog.findViewById(R.id.sms);
+        b2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                smsDefault();
+            }
+        });
+        ch1=(CheckBox)dialog.findViewById(R.id.checkbox1);
+        ch2=(CheckBox)dialog.findViewById(R.id.checkother);
+        et1=(EditText)dialog.findViewById(R.id.email);
 
         ch2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,30 +89,12 @@ public class send extends Activity {
                 else
                     et1.setVisibility(View.INVISIBLE);
             }
-    });
+
+        });
+        dialog.show();
+    }
 
     //send email
-
-    b1.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            try {
-                sendDefault();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-        }
-    });
-
-    b2.setOnClickListener(new View.OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-            smsDefault();
-        }
-    });
-}
-
     public void sendDefault() throws IOException {
         int i = 0;
         Intent intent2 = null, chooser = null;
@@ -123,7 +129,7 @@ public class send extends Activity {
                 record r = new record();
                 Uri uri = Uri.fromFile(r.getFile());
                 String[] id = {et1.getText().toString()};
-                intent2.putExtra(Intent.EXTRA_TEXT, " hey  ");
+                intent2.putExtra(Intent.EXTRA_TEXT, "Dear parents this is to inform you that your child has been irregularly attending college since last month.Kindly take action on the same.");
                 intent2.putExtra(Intent.EXTRA_STREAM, uri);
                 intent2.putExtra(Intent.EXTRA_EMAIL, id);
                 intent2.putExtra(Intent.EXTRA_SUBJECT, "Defaulter list");
@@ -164,14 +170,11 @@ public class send extends Activity {
 
     }
 
-    private void registerReceiver(BroadcastReceiver receiver) {
-
-    }
-
     public void onBackPressed() {
 
         super.onBackPressed();
-        Intent i=new Intent(send.this,record.class);
+        dialog.dismiss();
+        Intent i = new Intent(send.this, record.class);
         startActivity(i);
         return;
     }

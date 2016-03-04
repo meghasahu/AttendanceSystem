@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public class GenerateFile {
      ArrayList<defaultdetails> temp;
-    static int random=0;
+    int random=0;
      ArrayList<dmonth> dmon;
 
     GenerateFile(ArrayList<defaultdetails> temp)
@@ -27,14 +27,18 @@ public class GenerateFile {
     {
         this.dmon=dmon;
     }
-    public File saveDataDefaulters(){
 
-            FileWriter writer;
+    public File saveDataDefaulters(){
+        FileWriter writer;
             String tempname = "NewDocument";
             int i = 0;
         File file;
-        file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(),tempname+"("+random+").txt");
-        random++;
+        random=0;
+        file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(),tempname+".txt");
+        while(file.exists()) {
+            random++;
+            file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), tempname + "(" + random + ").txt");
+        }
         try {
             file.createNewFile();
             writer = new FileWriter(file);
@@ -57,22 +61,26 @@ public class GenerateFile {
         String tempname = "NewDocument";
         int i = 0,j=0;
         File file;
-        file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(),tempname+"("+random+").txt");
-        random++;
+        random=0;
+        file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(),tempname+".txt");
+        while(file.exists()) {
+            random++;
+            file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), tempname + "(" + random + ").txt");
+        }
         try {
             file.createNewFile();
             writer = new FileWriter(file);
-            writer.append("ROLLNO     \t 1 \t  2  \t3 \t 4  \t 5 \t 6 \t 7 \t 8 \t  \t9  \t  10\t  11 \t 12\t  13\t 14\t  15 \t 16  \t + 17 \t  18 \t 19 \t 20 \t 21 \t 22 \t 23 \t24 \t 25 \t 26 \t 27 \t 28 \t29 \t 30 \t 31\n");
+            writer.append("ROLLNO     \t DAY1 \t  DAY2  \t DAY3 \t DAY4  \t DAY5 \t DAY6 \t DAY7 \t DAY8  \t DAY9  \t  DAY10\t  DAY11 \t DAY12\t  DAY13\t DAY14\t  DAY15 \t DAY16  \t  DAY17 \t  DAY18 \t DAY19 \t DAY20 \t DAY21 \t DAY22 \t DAY23 \t DAY24 \t DAY25 \t DAY26 \t DAY27 \t DAY28 \t DAY29 \t DAY30 \t DAY31\n");
             while (j<dmon.size()) {
                writer.append(dmon.get(j).c[0]);
                 for (i = 1; i <=31; i++) {
                     if (dmon.get(j).c[i].equals("present")) {
-                        writer.append("present\t");
+                        writer.append("P\t");
                     }
                     else if (dmon.get(j).c[i].equals(null)){
-                        writer.append("holiday\t");}
+                        writer.append("H\t");}
                     else if(dmon.get(j).c[i].equals("absent")){
-                        writer.append("absent\t");}
+                        writer.append("A\t");}
                 }
                 writer.append("\n");
                 j++;

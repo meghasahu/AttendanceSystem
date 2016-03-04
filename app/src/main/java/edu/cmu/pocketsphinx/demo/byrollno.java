@@ -48,7 +48,7 @@ public class byrollno extends Activity implements View.OnClickListener {
         }
         catch (DatabaseException e)
         {
-            Toast.makeText(this, "please choose proper option", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "please choose proper option rollno will only show you current month details", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -61,7 +61,7 @@ public class byrollno extends Activity implements View.OnClickListener {
 
                 String s=pg.Tablenamereturns(data[1],data[2],data[4]);
                 if(s.equals("no record found"))
-                    throw new DatabaseException(" ");
+                    throw new DatabaseException();
                 else {
                     setContentView(R.layout.monthlistview);
                     Button b1 = (Button) findViewById(R.id.sending);
@@ -77,7 +77,7 @@ public class byrollno extends Activity implements View.OnClickListener {
                 DatabaseHandlerSudhir su = new DatabaseHandlerSudhir(getApplicationContext(), null, null, 1);
                 String s1=su.Tablenamereturns(data[1],data[2],data[4]);
                 if(s1.equals("no record found"))
-                    throw new DatabaseException(" ");
+                    throw new DatabaseException();
                 else {
                     setContentView(R.layout.monthlistview);
                     Button b1 = (Button) findViewById(R.id.sending);
