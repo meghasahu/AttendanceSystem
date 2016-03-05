@@ -21,6 +21,9 @@ public class DatabaseHandlerPrasad extends SQLiteOpenHelper {
     public emailStructure emailtemp;
     public dmonth m;
 
+    public static final String[] temp={"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21"+
+    "22","23","24","25","26","27","28","29","30","31"};
+
     public static final int database_version=1;
     public static final String DataBase_name="Prasad.db";
     public static final String Table_name="MainTable";
@@ -234,7 +237,6 @@ public class DatabaseHandlerPrasad extends SQLiteOpenHelper {
         }
 
         //Creation of Trigger for information table
-
             String trigger_info_table="CREATE TRIGGER after_insert_on_info_table \n" +
                     "after insert on " + Table_Information +  " for each row begin \n" +
                     "insert into  " + Table_info_attend[0] + " (rollno) values(new.rollno) ;\n" +
@@ -353,35 +355,53 @@ public class DatabaseHandlerPrasad extends SQLiteOpenHelper {
         String month = String.valueOf(1 + (cal.get(Calendar.MONTH)));
         day = String.valueOf(cal.get(Calendar.DATE));
         tablename = Tablenamereturns(course, semester, month);
-       // Toast.makeText(1, "Table Name" + tablename, Toast.LENGTH_LONG).show();
-       // Toast.makeText(l, "date" + day, Toast.LENGTH_LONG).show();
+        // Toast.makeText(1, "Table Name" + tablename, Toast.LENGTH_LONG).show();
+        // Toast.makeText(l, "date" + day, Toast.LENGTH_LONG).show();
         SQLiteDatabase db = getWritableDatabase();
         TreeSet<String> S = new TreeSet<>(Student_numbers);
         String[] numbers = S.toArray(new String[S.size()]);
 
+        String[] columns = {"rollno"};
+        int i=0;
+
+        Cursor cursor = db.query(Table_name, columns, null, null, null, null, null);
         if (status.equalsIgnoreCase("present")) {
 
-            for (String number : numbers) {
-             // Toast.makeText(1,"number" + number, Toast.LENGTH_LONG).show();
-                db.execSQL("update " + tablename + " \n" +
-                        "set \"" + day + "\"=\"present\"\n" +
-                        "where rollno = " + number + " \n");
-
+            while (cursor.moveToFirst()) {
+                if(cursor.getString(cursor.getColumnIndex(roll_no)).equals(numbers[i]))
+                {
+                    // Toast.makeText(1,"number" + number, Toast.LENGTH_LONG).show();
+                    db.execSQL("update " + tablename + " \n" +
+                            "set \"" + day + "\"=\"present\"\n" +
+                            "where rollno = " + numbers + " \n");
+                }else {
+                    db.execSQL("update " + tablename + " \n" +
+                            "set \"" + day + "\"=\"absent\"\n" +
+                            "where rollno != " + numbers + " \n");
+                }
+                i++;
 
             }
 
-        }
-        else
-        {
-            for(String number:numbers)
-            {
-               // Toast.makeText(l, "calling from else part:absent", Toast.LENGTH_SHORT).show();
-                db.execSQL("update " + tablename + " \n" +
-                        "set \"" + day + "\"=\"absent\"\n" +
-                        "where rollno = " + number + " \n");
+        } else {
+            while (cursor.moveToFirst()) {
+                if(cursor.getString(cursor.getColumnIndex(roll_no)).equals(numbers[i]))
+
+                {
+                    // Toast.makeText(1,"number" + number, Toast.LENGTH_LONG).show();
+                    db.execSQL("update " + tablename + " \n" +
+                            "set \"" + day + "\"=\"present\"\n" +
+                            "where rollno != " + numbers + " \n");
+                }else {
+                    db.execSQL("update " + tablename + " \n" +
+                            "set \"" + day + "\"=\"absent\"\n" +
+                            "where rollno = " + numbers + " \n");
+                }
+                i++;
+
             }
         }
-    }
+        }
 
 
 
@@ -745,11 +765,13 @@ public class DatabaseHandlerPrasad extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
 
         String [] columns ={"rollno","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"};
-            Cursor cursor = db.query(tablename, columns, null, null, null, null, null);
+            //Cursor cursor = db.rawQuery("SELECT * from  "+tablename,null);
+        Cursor cursor=db.query(tablename,columns,null,null,null,null,null);
             Cursor cur2;
             try {
                 while (cursor.moveToNext()) {
                     double c = 0.00, holiday = 0.00;
+
                     for (int i = 1; i <= 31; i++) {
                         if (cursor.getString(i).equalsIgnoreCase("present"))
                             c++;
@@ -762,9 +784,11 @@ public class DatabaseHandlerPrasad extends SQLiteOpenHelper {
                     double defaulterpercent = (c / (31 - holiday)) * 100;
                     if (defaulterpercent < 75) {
                         String[] col = {"FirstName", "rollno", "Course"};
-                        cur2 = db.query(Table_name, col, "rollno =" + cursor.getString(cursor.getColumnIndex(roll_no)), null, null, null, null);
+                       cur2 = db.query(Table_name, col, "rollno =" + cursor.getString(cursor.getColumnIndex(roll_no)), null, null, null, null);
+                       //cur2=db.rawQuery("SELECT FirstName,rollno,Course from "+ Table_name+"where rollno = "+roll_no,null);
                         cur2.moveToFirst();
                         dd = new defaultdetails(cur2.getString(cur2.getColumnIndex(Firstname)) + "  ", cur2.getString(cur2.getColumnIndex(roll_no)) + "  ", cur2.getString(cur2.getColumnIndex(Course)) + " ", defaulterpercent);
+
 
                     }
                 }
