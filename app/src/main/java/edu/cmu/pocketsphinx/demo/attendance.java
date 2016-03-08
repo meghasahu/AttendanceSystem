@@ -249,7 +249,6 @@ public class attendance extends Activity implements RecognitionListener {
     /*
     public void data(String a[] ,int ind)
     {
-
         if(ind==3)
         {
             val[ind] =  a[ind];
@@ -259,12 +258,7 @@ public class attendance extends Activity implements RecognitionListener {
         {
             val[ind]=a[ind];
             Toast.makeText(getApplicationContext(),"its the else part of data"+val[ind],Toast.LENGTH_SHORT).show();
-
-
-
         }
-
-
     }
     */
 

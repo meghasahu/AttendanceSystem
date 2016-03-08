@@ -39,7 +39,7 @@ public class send extends Activity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
 
         dialog = new Dialog(this);
@@ -49,6 +49,7 @@ public class send extends Activity {
 
         intent = getIntent();
         e = intent.getParcelableArrayListExtra("tempdata");
+
 
         while(temp[i]!=null) {
             temp[i] = intent.getStringExtra(("tempdata2attend"));
@@ -63,6 +64,10 @@ public class send extends Activity {
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
+                catch(NullPointerException e)
+                {
+                    Toast.makeText(getApplicationContext(),"no data found",Toast.LENGTH_SHORT);
+                }
 
             }
         });
@@ -70,19 +75,37 @@ public class send extends Activity {
         b2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                smsDefault();
+                  try {
+                      smsDefault();
+                  }
+                  catch(NullPointerException e){
+                      Toast.makeText(getApplicationContext(),"no data found",Toast.LENGTH_SHORT);
+                  }
             }
         });
         ch1=(CheckBox)dialog.findViewById(R.id.checkbox1);
         ch2=(CheckBox)dialog.findViewById(R.id.checkother);
         et1=(EditText)dialog.findViewById(R.id.email);
 
+        ch1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+             if(ch2.isChecked()){
+                 Toast.makeText(getApplicationContext(),"can select only one at a time",Toast.LENGTH_SHORT);
+             }
+            }
+        });
+
+
+
         ch2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(ch2.isChecked())
-                {
+                {   if(ch1.isChecked()) {
+                    ch1.setChecked(false);
+                    Toast.makeText(getApplicationContext(), "can select only one at a time", Toast.LENGTH_SHORT);
+                }
                     et1.setVisibility(View.VISIBLE);
                     et1.setHint("enter emailId");
                 }
@@ -95,7 +118,7 @@ public class send extends Activity {
     }
 
     //send email
-    public void sendDefault() throws IOException {
+    public void sendDefault() throws IOException,NullPointerException{
         int i = 0;
         Intent intent2 = null, chooser = null;
         intent2 = new Intent(Intent.ACTION_SEND);
@@ -104,6 +127,9 @@ public class send extends Activity {
         Intent intent3 = new Intent(Intent.ACTION_SEND);
         intent3.setData(Uri.parse("mailto:"));
 
+        if(e.size()==0) {
+            throw new NullPointerException();
+        }
 
         String sendTo[] = new String[e.size()];
         while (i < e.size()) {
@@ -145,7 +171,10 @@ public class send extends Activity {
             }
         }
 
-    public void smsDefault() {
+    public void smsDefault() throws NullPointerException{
+        if(e.size()==0) {
+            throw new NullPointerException();
+        }
         String sent="SMS_SENT";
         PendingIntent sentPI=PendingIntent.getBroadcast(this,0,new Intent(sent),0);
         registerReceiver(new BroadcastReceiver() {

@@ -143,7 +143,7 @@ public class record extends Activity implements View.OnClickListener {
 
                     } else if (s3.getSelectedItemId() == s3.getItemIdAtPosition(2)) {
                         Intent i = new Intent(record.this, bymonth.class);
-                        String[] array = {teacher, course, sem, month};
+                        String[] array = {teacher, course, sem, mon};
                         i.putExtra("string", array);
                         startActivity(i);
 

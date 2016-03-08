@@ -9,6 +9,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.TreeSet;
 
 
@@ -395,8 +396,6 @@ public class DatabaseHandlerSudhir extends SQLiteOpenHelper {
         tablename = Tablenamereturns(course, semester, month);
         // Toast.makeText(1, "Table Name" + tablename, Toast.LENGTH_LONG).show();
         // Toast.makeText(l, "date" + day, Toast.LENGTH_LONG).show();
-        ContentValues vs = new ContentValues();
-        vs.put(day, "present");
         SQLiteDatabase db = getWritableDatabase();
         TreeSet<String> S = new TreeSet<>(Student_numbers);
         String[] numbers = S.toArray(new String[S.size()]);
@@ -404,7 +403,7 @@ public class DatabaseHandlerSudhir extends SQLiteOpenHelper {
         if (status.equalsIgnoreCase("present")) {
 
             for (String number : numbers) {
-                //  Toast.makeText(1,"number" + number, Toast.LENGTH_LONG).show();
+                // Toast.makeText(1,"number" + number, Toast.LENGTH_LONG).show();
                 db.execSQL("update " + tablename + " \n" +
                         "set \"" + day + "\"=\"present\"\n" +
                         "where rollno = " + number + " \n");
@@ -735,27 +734,38 @@ public class DatabaseHandlerSudhir extends SQLiteOpenHelper {
     }
 
 
+
     public ArrayList<defaultdetails>  defaulterFor1month (String tablename)
     {
         SQLiteDatabase db = getWritableDatabase();
 
-        String [] columns ={"rollno","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"};
+        String [] columns ={"`rollno`,`1`,`2`,`3`,`4`,`5`,`6`,`7`,`8`,`9`,`10`,`11`,`12`,`13`,`14`,`15`,`16`,`17`,`18`,`19`,`20`,`21`,`22`,`23`,`24`,`25`,`26`,`27`,`28`,`29`,`30`,`31`"};
         Cursor cursor = db.query(tablename, columns, null, null, null, null, null);
         Cursor cur2;
         try {
             while (cursor.moveToNext()) {
                 double c = 0.00, holiday = 0.00;
                 for (int i = 1; i <= 31; i++) {
-                    if (cursor.getString(i).equalsIgnoreCase("present"))
-                        c++;
+                    if(!cursor.isNull(i))
+                    {
+                        String n=cursor.getString(i);
+                        Log.v("values",n);
+                        if(n.equals("present"))
+                        {
+                            c++;
+                        }
 
+                    }
 
                     else {
-                        if (cursor.getString(i).equalsIgnoreCase(null))
-                            holiday++;
+
+                        holiday++;
                     }
                 }
-                double defaulterpercent = (c / (31 - holiday)) * 100;
+                Log.v("valueofc","row"+cursor.getPosition()+c);
+                Log.v("valueofholiday",""+holiday);
+                double defaulterpercent = (c / (31.0-holiday )) * 100;
+                Log.v("lifes","row"+cursor.getPosition()+defaulterpercent);
                 if (defaulterpercent < 75) {
                     String[] col = {"FirstName", "rollno", "Course"};
                     cur2 = db.query(Table_name, col, "rollno =" + cursor.getString(cursor.getColumnIndex(roll_no)), null, null, null, null);
@@ -771,9 +781,7 @@ public class DatabaseHandlerSudhir extends SQLiteOpenHelper {
         }
 
         return al1;
-    }
-
-    //get email id to send mail
+    }//get email id to send mail
 
     public ArrayList<emailStructure> getEmail(String[] rollno)
     {
